@@ -3,11 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from models import db
 from config import Config
-from endpoints import api
+from endpoints import api, mail
 from auth import auth
 from sqlalchemy.exc import OperationalError
 
+
+
 app = Flask(__name__)
+
 
 # Configure app from config.py
 try:
@@ -16,9 +19,12 @@ try:
     # Initialize database with app context
     db.init_app(app)
     
+    mail.init_app(app)
+    
     # Attempt to create tables
     with app.app_context():
         db.create_all()
+
         
 except OperationalError as e:
     print("Database connection failed. Please ensure the database is running and accessible.")

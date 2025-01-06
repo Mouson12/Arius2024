@@ -1,6 +1,9 @@
 from flask import Blueprint, jsonify, request
 from models import db, Service, RepairOrder, RepairHistory, WorkshopRating
 from datetime import datetime
+from flask_mail import Mail, Message
+
+mail = Mail()
 
 # Create a Blueprint for routes
 api = Blueprint('api', __name__)
@@ -48,6 +51,7 @@ def get_appointments():
 def complete_repair():
     """
     Endpoint to mark a repair as completed and add a repair history entry.
+    Sends an email with the HTML report.
     """
     data = request.get_json()
     repair_order_id = data.get('repair_order_id')
@@ -67,8 +71,31 @@ def complete_repair():
     db.session.add(repair_history)
     db.session.commit()
 
-    # TODO: Send email with the report (email handling function)
-    return jsonify({"message": "Repair completed and report sent."}), 200
+
+    user_email = repair_order.user.email
+    username = repair_order.user.username
+    vehicle_model = repair_order.vehicle_model
+
+    # Wczytanie szablonu HTML
+    with open('templates/emails/repair_complete.html', 'r') as file:
+        html_template = file.read()
+
+    html_body = html_template.replace("{{ username }}", username)\
+                             .replace("{{ vehicle_model }}", vehicle_model)\
+                             .replace("{{ report }}", report)
+
+    # Wysyłanie e-maila z HTML
+    msg = Message(
+        subject="Repair Completed",
+        recipients=[user_email],
+        body=f"Hello {username},\nYour repair for {vehicle_model} has been completed.\n\nReport:\n{report}\nThank you!",
+        html=html_body
+    )
+    try:
+        mail.send(msg)
+        return jsonify({"message": "Repair completed and report sent via email."}), 200
+    except Exception as e:
+        return jsonify({"message": f"Repair completed, but email sending failed: {str(e)}"}), 500
 
 @api.route('/repair_history/<int:user_id>', methods=['GET'])
 def get_user_repair_history(user_id):
