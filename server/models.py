@@ -61,7 +61,7 @@ class RepairOrder(db.Model):
     """
     __tablename__ = 'repair_orders'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)  # Updated to 'users.user_id'
     vehicle_model = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(50), default='Pending')  # Status np. 'Pending', 'Completed'
@@ -76,6 +76,7 @@ class RepairOrder(db.Model):
         :return: String
         """
         return f'<RepairOrder {self.id}>'
+
 
 class RepairHistory(db.Model):
     """
@@ -104,7 +105,7 @@ class WorkshopRating(db.Model):
     """
     __tablename__ = 'workshop_ratings'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)  # Updated to 'users.user_id'
     repair_order_id = db.Column(db.Integer, db.ForeignKey('repair_orders.id'), nullable=False)
     rating = db.Column(db.Integer, nullable=False)  # Rate from 1 to 5
     comment = db.Column(db.Text, nullable=True)
