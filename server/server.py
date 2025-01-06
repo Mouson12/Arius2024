@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 from config import Config
 from endpoints import api
+from auth import auth
 from models import db, Drawer, Alarm, Medications
 from sqlalchemy.exc import OperationalError
 
@@ -43,6 +44,7 @@ swagger = Swagger(app, template={
 
 # Register Blueprints (routes)
 app.register_blueprint(api, url_prefix="/api")  # Register the API Blueprint
+app.register_blueprint(auth, url_prefix="/auth")
 
 # Error handler for 404 errors
 @app.errorhandler(404)

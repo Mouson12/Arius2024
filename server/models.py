@@ -7,13 +7,25 @@ from datetime import timedelta
 db = SQLAlchemy()
 
 
-class Drawer(db.Model):
-    __tablename__ = 'drawer'
-    id = db.Column(db.Integer, primary_key=True)
-    is_open = db.Column(db.Boolean, nullable=False, default=False)  # 0 or 1
-    
-    def __repr__(self):
-        return f"<Drawer(id={self.id}, is_open={self.is_open})>"
+class User(db.Model):
+    __tablename__ = 'users'
+    user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
+    password_hash = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
+
+    def set_password(self, password):
+        #Hash the password when setting it
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        #Check if the provided password matches the stored hash
+        return check_password_hash(self.password_hash, password)
+
+    def generate_jwt(self):
+        #Generate JWT token for the user that expires after 10 days
+        return create_access_token(identity=str(self.user_id), expires_delta=timedelta(days=10))
 
 class Alarm(db.Model):
     __tablename__ = 'alarm'
