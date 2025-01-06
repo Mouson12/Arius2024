@@ -2,7 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token
-from datetime import timedelta
 
 db = SQLAlchemy()
 
@@ -66,7 +65,7 @@ class RepairOrder(db.Model):
     vehicle_model = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(50), default='Pending')  # Status np. 'Pending', 'Completed'
-    created_at = db.Column(db.DateTime, default=datetime.timezone.utc)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
     appointment_date = db.Column(db.DateTime, nullable=False)
 
     user = db.relationship('User', backref=db.backref('repair_orders', lazy=True))
@@ -87,7 +86,7 @@ class RepairHistory(db.Model):
     repair_order_id = db.Column(db.Integer, db.ForeignKey('repair_orders.id'), nullable=False)
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=False)
     report = db.Column(db.Text, nullable=False)
-    completed_at = db.Column(db.DateTime, default=datetime.timezone.utc)
+    completed_at = db.Column(db.DateTime, default=datetime.utcnow())
 
     repair_order = db.relationship('RepairOrder', backref=db.backref('repair_history', lazy=True))
     service = db.relationship('Service', backref=db.backref('repair_history', lazy=True))
@@ -107,7 +106,7 @@ class WorkshopRating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     repair_order_id = db.Column(db.Integer, db.ForeignKey('repair_orders.id'), nullable=False)
-    rating = db.Column(db.Integer, nullable=False)  # Ocena od 1 do 5
+    rating = db.Column(db.Integer, nullable=False)  # Rate from 1 to 5
     comment = db.Column(db.Text, nullable=True)
 
     user = db.relationship('User', backref=db.backref('workshop_ratings', lazy=True))

@@ -1,11 +1,10 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from flasgger import Swagger
+from models import db
 from config import Config
 from endpoints import api
 from auth import auth
-from models import db, Drawer, Alarm, Medications
 from sqlalchemy.exc import OperationalError
 
 app = Flask(__name__)
@@ -33,14 +32,6 @@ except Exception as e:
 # Initialize JWTManager for authentication
 jwt = JWTManager(app)
 
-# Setup Swagger for API documentation
-swagger = Swagger(app, template={
-    "info": {
-        "title": "User API - Monitoring Smart Devices",
-        "description": "API for user management, sensor readings, and device network alerts.",
-        "version": "1.0.0"
-    }
-})
 
 # Register Blueprints (routes)
 app.register_blueprint(api, url_prefix="/api")  # Register the API Blueprint
