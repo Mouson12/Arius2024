@@ -6,8 +6,10 @@ from datetime import timedelta
 
 db = SQLAlchemy()
 
-
 class User(db.Model):
+    """
+    User model for storing user details.
+    """
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
@@ -16,56 +18,104 @@ class User(db.Model):
     created_at = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
 
     def set_password(self, password):
-        #Hash the password when setting it
+        """
+        Hash the password when setting it.
+        :param password: Plain text password
+        """
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        #Check if the provided password matches the stored hash
+        """
+        Check if the provided password matches the stored hash.
+        :param password: Plain text password
+        :return: Boolean indicating if the password matches
+        """
         return check_password_hash(self.password_hash, password)
 
     def generate_jwt(self):
-        #Generate JWT token for the user that expires after 10 days
+        """
+        Generate JWT token for the user that expires after 10 days.
+        :return: JWT token as a string
+        """
         return create_access_token(identity=str(self.user_id), expires_delta=timedelta(days=10))
 
-class Alarm(db.Model):
-    __tablename__ = 'alarm'
+class Service(db.Model):
+    """
+    Service model for storing service details.
+    """
+    __tablename__ = 'services'
     id = db.Column(db.Integer, primary_key=True)
-    fall_detected = db.Column(db.Boolean, nullable=False, default=False)  # True if fall detected
-    
-    def __repr__(self):
-        return f"<Alarm(id={self.id}, fall_detected={self.fall_detected})>"
-
-class Medications(db.Model):
-    __tablename__ = 'medications'
-    id = db.Column(db.Integer, primary_key=True)
-    last_dose = db.Column(db.DateTime, nullable=False, default=datetime.now() + timedelta(hours=1) )  # Timestamp of last dose
-    next_dose = db.Column(db.DateTime, nullable=False)  # Timestamp of next dose
-    delay_minutes = db.Column(db.Integer, nullable=False)  # Delay in minutes
-    
-    def __repr__(self):
-        return f"<Medications(id={self.id}, last_dose={self.last_dose}, next_dose={self.next_dose}, delay_minutes={self.delay_minutes})>"
-    
-
-class Temperature(db.Model):
-    __tablename__ = 'temperature'
-    id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Float, nullable=False)  # Temperature value in Celsius
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    price = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
-        return f"<Temperature(id={self.id}, value={self.value}, timestamp={self.timestamp})>"
+        """
+        String representation of the Service object.
+        :return: String
+        """
+        return f'<Service {self.name}>'
 
-class PulseOximeter(db.Model):
-    __tablename__ = 'pulse_oximeter'
+class RepairOrder(db.Model):
+    """
+    RepairOrder model for storing repair order details.
+    """
+    __tablename__ = 'repair_orders'
     id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Float, nullable=False)  # Oxygen saturation percentage (SpO2)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    vehicle_model = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(50), default='Pending')  # Status np. 'Pending', 'Completed'
+    created_at = db.Column(db.DateTime, default=datetime.timezone.utc)
+    appointment_date = db.Column(db.DateTime, nullable=False)
+
+    user = db.relationship('User', backref=db.backref('repair_orders', lazy=True))
 
     def __repr__(self):
-        return f"<PulseOximeter(id={self.id}, value={self.value}, pulse_rate={self.pulse_rate}, timestamp={self.timestamp})>"
-    
+        """
+        String representation of the RepairOrder object.
+        :return: String
+        """
+        return f'<RepairOrder {self.id}>'
 
-
-
-class MedsTaken(db.Model):
-    __tablename__ = 'meds_taken'
+class RepairHistory(db.Model):
+    """
+    RepairHistory model for storing repair history details.
+    """
+    __tablename__ = 'repair_history'
     id = db.Column(db.Integer, primary_key=True)
-    meds_taken = db.Column(db.Boolean, nullable=False, default=False)
+    repair_order_id = db.Column(db.Integer, db.ForeignKey('repair_orders.id'), nullable=False)
+    service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=False)
+    report = db.Column(db.Text, nullable=False)
+    completed_at = db.Column(db.DateTime, default=datetime.timezone.utc)
+
+    repair_order = db.relationship('RepairOrder', backref=db.backref('repair_history', lazy=True))
+    service = db.relationship('Service', backref=db.backref('repair_history', lazy=True))
+
+    def __repr__(self):
+        """
+        String representation of the RepairHistory object.
+        :return: String
+        """
+        return f'<RepairHistory {self.id}>'
+
+class WorkshopRating(db.Model):
+    """
+    WorkshopRating model for storing workshop ratings.
+    """
+    __tablename__ = 'workshop_ratings'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    repair_order_id = db.Column(db.Integer, db.ForeignKey('repair_orders.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)  # Ocena od 1 do 5
+    comment = db.Column(db.Text, nullable=True)
+
+    user = db.relationship('User', backref=db.backref('workshop_ratings', lazy=True))
+    repair_order = db.relationship('RepairOrder', backref=db.backref('workshop_ratings', lazy=True))
+
+    def __repr__(self):
+        """
+        String representation of the WorkshopRating object.
+        :return: String
+        """
+        return f'<WorkshopRating {self.rating}>'
