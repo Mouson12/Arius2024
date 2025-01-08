@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 //    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply true
 }
 
 android {
@@ -16,6 +18,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas".toString(),
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true"
+                )
+            }
+        }
     }
 
     buildTypes {
@@ -55,6 +66,9 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+//    kapt(libs.androidx.room.compiler)
+    ksp("androidx.room:room-compiler:2.5.0")
+    implementation("androidx.room:room-ktx:2.5.0")
 //    ksp("androidx.room:room-compiler:2.5.0")
 //    kapt("androidx.room:room-compiler:2.5.0")
 }
