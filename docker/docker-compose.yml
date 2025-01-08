@@ -1,0 +1,41 @@
+services:
+    postgres:
+        image: postgres:17.2
+        container_name: garage_db
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: garage_db
+        volumes:
+            - ./postgres:/var/lib/postgresql/data
+    adminer:
+        image: adminer
+        container_name: garage_adminer
+        ports:
+            - "8080:8080"
+    # ToDo: add flask container and web react SPA container
+    flask:
+        build:
+            context: ../server
+            dockerfile: Dockerfile
+        container_name: garage_server
+        ports:
+            - "5001:5000"
+        environment:
+            - FLASK_ENV=development
+        depends_on:
+            - postgres
+        entrypoint: [ "/server/wait-for-db.sh", "garage_db", "flask", "run", "--host=0.0.0.0", "--port=5000" ]
+    # web:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     ports:
+    #         - "5002:5002"
+    #     environment:
+    #         - FLASK_ENV=development
+    #     depends_on:
+    #         - postgres
+    #     entrypoint: ["/app/wait-for-db.sh", "postgres", "flask", "run", "--host=
