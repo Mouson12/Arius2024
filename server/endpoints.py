@@ -1,12 +1,19 @@
 from flask import Blueprint, jsonify, request
-from models import db, Service, RepairOrder, RepairHistory, WorkshopRating
+from models import db, Service, RepairOrder, RepairHistory, WorkshopRating, User
 from datetime import datetime
 from flask_mail import Mail, Message
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 mail = Mail()
 
 # Create a Blueprint for routes
 api = Blueprint('api', __name__)
+
+def get_user_by_jwt():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    return user
+
 
 @api.route('/services', methods=['GET'])
 def get_services():
@@ -17,18 +24,22 @@ def get_services():
     return jsonify([{"id": s.id, "name": s.name, "description": s.description, "price": s.price} for s in services])
 
 @api.route('/repair_orders', methods=['POST'])
+@jwt_required()
 def create_repair_order():
     """
     Endpoint to create a new repair order.
     """
+    user = get_user_by_jwt()
+    if not user:
+        return jsonify({"message": "User not found."}), 404
+
     data = request.get_json()
-    user_id = data.get('user_id')
     vehicle_model = data.get('vehicle_model')
     description = data.get('description')
     appointment_date = data.get('appointment_date')
 
     new_order = RepairOrder(
-        user_id=user_id,
+        user_id=user.id,
         vehicle_model=vehicle_model,
         description=description,
         appointment_date=datetime.strptime(appointment_date, '%Y-%m-%dT%H:%M:%S')
@@ -47,12 +58,17 @@ def get_appointments():
     taken_dates = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
     return jsonify(taken_dates)
 
-@api.route('/appointments/user/<int:user_id>', methods=['GET'])
-def get_user_appointments(user_id):
+@api.route('/appointments/user', methods=['GET'])
+@jwt_required()
+def get_user_appointments():
     """
-    Endpoint to retrieve all appointments for a specific user by their user ID.
+    Endpoint to retrieve all appointments for the authenticated user.
     """
-    orders = RepairOrder.query.filter_by(user_id=user_id).all()
+    user = get_user_by_jwt()
+    if not user:
+        return jsonify({"message": "User not found."}), 404
+
+    orders = RepairOrder.query.filter_by(user_id=user.id).all()
     if not orders:
         return jsonify({"message": "No appointments found for this user."}), 404
     user_appointments = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
@@ -109,12 +125,17 @@ def complete_repair():
     except Exception as e:
         return jsonify({"message": f"Repair completed, but email sending failed: {str(e)}"}), 500
 
-@api.route('/repair_history/<int:user_id>', methods=['GET'])
-def get_user_repair_history(user_id):
+@api.route('/repair_history', methods=['GET'])
+@jwt_required()
+def get_user_repair_history():
     """
-    Endpoint to retrieve the repair history of a user.
+    Endpoint to retrieve the repair history of the authenticated user.
     """
-    history = RepairHistory.query.join(RepairOrder).filter(RepairOrder.user_id == user_id).all()
+    user = get_user_by_jwt()
+    if not user:
+        return jsonify({"message": "User not found."}), 404
+
+    history = RepairHistory.query.join(RepairOrder).filter(RepairOrder.user_id == user.id).all()
     history_data = [{
         "repair_history_id": h.id,
         "repair_order_id": h.repair_order_id,
@@ -125,18 +146,22 @@ def get_user_repair_history(user_id):
     return jsonify(history_data)
 
 @api.route('/ratings', methods=['POST'])
+@jwt_required()
 def rate_workshop():
     """
     Endpoint to submit a rating for the workshop.
     """
+    user = get_user_by_jwt()
+    if not user:
+        return jsonify({"message": "User not found."}), 404
+
     data = request.get_json()
-    user_id = data.get('user_id')
     repair_order_id = data.get('repair_order_id')
     rating = data.get('rating')
     comment = data.get('comment')
 
     new_rating = WorkshopRating(
-        user_id=user_id,
+        user_id=user.id,
         repair_order_id=repair_order_id,
         rating=rating,
         comment=comment
@@ -154,12 +179,17 @@ def get_ratings():
     ratings = WorkshopRating.query.all()
     return jsonify([{"id": r.id, "user_id": r.user_id, "repair_order_id": r.repair_order_id, "rating": r.rating, "comment": r.comment} for r in ratings])
 
-@api.route('/repair_orders/user/<int:user_id>', methods=['GET'])
-def get_repair_orders_by_user(user_id):
+@api.route('/repair_orders/user', methods=['GET'])
+@jwt_required()
+def get_repair_orders_by_user():
     """
-    Endpoint to retrieve all repair orders for a specific user by their user ID.
+    Endpoint to retrieve all repair orders for the authenticated user.
     """
-    repair_orders = RepairOrder.query.filter_by(user_id=user_id).all()
+    user = get_user_by_jwt()
+    if not user:
+        return jsonify({"message": "User not found."}), 404
+
+    repair_orders = RepairOrder.query.filter_by(user_id=user.id).all()
     if not repair_orders:
         return jsonify({"message": "No orders found for this user."}), 404
     return jsonify([{

@@ -36,7 +36,7 @@ class User(db.Model):
         Generate JWT token for the user that expires after 10 days.
         :return: JWT token as a string
         """
-        return create_access_token(identity=str(self.user_id), expires_delta=timedelta(days=10))
+        return create_access_token(identity=str(self.user_id), expires_delta=timedelta(days=20))
 
 class Service(db.Model):
     """
