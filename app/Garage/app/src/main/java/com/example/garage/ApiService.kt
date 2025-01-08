@@ -15,37 +15,40 @@ interface ApiService {
     @POST("/auth/register")
     fun register(@Body request: RegisterRequest): Call<Void>
 
-    // Pobranie listy usług warsztatu
     @GET("/api/services")
     suspend fun getServices(): List<Service>
 
-    // Tworzenie zamówienia naprawy
     @POST("/api/repair_orders")
-    suspend fun createRepairOrder(@Body request: RepairOrder): Map<String, Any>
+    suspend fun createRepairOrder(
+        @Header("Authorization") token: String,
+        @Body request: RepairOrder
+    ): Map<String, Any>
 
-    // Pobranie zajętych terminów
     @GET("/api/appointments")
     suspend fun getAppointments(): List<Appointment>
 
-    // Pobranie terminów dla konkretnego użytkownika
-    @GET("/api/appointments/user/{user_id}")
-    suspend fun getUserAppointments(@Path("user_id") userId: Int): List<Appointment>
+    @GET("/api/appointments/user")
+    suspend fun getUserAppointments(
+        @Header("Authorization") token: String
+    ): List<Appointment>
 
+    @GET("/api/repair_history")
+    suspend fun getUserRepairHistory(
+        @Header("Authorization") token: String
+    ): List<RepairHistory>
 
-    // Pobranie historii napraw użytkownika
-    @GET("/api/repair_history/{user_id}")
-    suspend fun getUserRepairHistory(@Path("user_id") userId: Int): List<RepairHistory>
-
-    // Dodanie oceny warsztatu
     @POST("/api/ratings")
-    suspend fun rateWorkshop(@Body request: WorkshopRatingRequest): UpdateResponse
+    suspend fun rateWorkshop(
+        @Header("Authorization") token: String,
+        @Body request: WorkshopRatingRequest
+    ): UpdateResponse
 
-    // Pobranie wszystkich ocen warsztatu
     @GET("/api/ratings")
     suspend fun getRatings(): List<WorkshopRating>
 
-    // Pobranie wszystkich zamówień użytkownika
-    @GET("/api/repair_orders/user/{user_id}")
-    suspend fun getRepairOrdersByUser(@Path("user_id") userId: Int): List<RepairOrder>
-
+    @GET("/api/repair_orders/user")
+    suspend fun getRepairOrdersByUser(
+        @Header("Authorization") token: String
+    ): List<RepairOrder>
 }
+

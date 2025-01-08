@@ -34,7 +34,6 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         scope.launch {
             try {
                 val response = repository.createRepairOrder(
-                    userId = 1,
                     vehicleModel = "Toyota Corolla",
                     description = "Brakes issue",
                     appointmentDate = "2025-01-15T10:00:00"
@@ -60,7 +59,7 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
     private fun testGetUserAppointments() {
         scope.launch {
             try {
-                val userAppointments = repository.getUserAppointments(1)
+                val userAppointments = repository.getUserAppointments()
                 Log.d("ApiTest", "User Appointments: $userAppointments")
             } catch (e: HttpException) {
                 Log.e("ApiTest", "Error fetching user appointments: ${e.message()}")
@@ -71,7 +70,7 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
     private fun testGetRepairHistory() {
         scope.launch {
             try {
-                val history = repository.getUserRepairHistory(1)
+                val history = repository.getUserRepairHistory()
                 Log.d("ApiTest", "Repair history: $history")
             } catch (e: HttpException) {
                 Log.e("ApiTest", "Error fetching repair history: ${e.message()}")
@@ -83,7 +82,6 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         scope.launch {
             try {
                 val message = repository.rateWorkshop(
-                    userId = 1,
                     repairOrderId = 39,
                     rating = 5,
                     comment = "Excellent service!"
@@ -109,7 +107,7 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
     private fun testGetRepairOrdersByUser() {
         scope.launch {
             try {
-                val repairOrders = repository.getRepairOrdersByUser(1)
+                val repairOrders = repository.getRepairOrdersByUser()
                 Log.d("ApiTest", "Repair orders by user: $repairOrders")
             } catch (e: HttpException) {
                 Log.e("ApiTest", "Error fetching repair orders by user: ${e.message()}")

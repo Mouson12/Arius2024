@@ -10,8 +10,6 @@ data class Service(
 
 // Model zamówienia naprawy (RepairOrder)
 data class RepairOrder(
-    val id: Int = 0,
-    val user_id: Int,
     val vehicle_model: String,
     val description: String,
     val status: String = "Pending",
@@ -30,7 +28,6 @@ data class RepairHistory(
 // Model oceny warsztatu (WorkshopRating)
 data class WorkshopRating(
     val id: Int,
-    val user_id: Int,
     val repair_order_id: Int,
     val rating: Int,
     val comment: String?
@@ -38,7 +35,6 @@ data class WorkshopRating(
 
 // Model zapytania o ocenę warsztatu
 data class WorkshopRatingRequest(
-    val user_id: Int,
     val repair_order_id: Int,
     val rating: Int,
     val comment: String?

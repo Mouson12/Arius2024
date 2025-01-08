@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         // Domyślnie wyświetl "Cennik"
         replaceFragment(HomeFragment())
 
-        val apiService = RetrofitInstance.api
+
         authRepository = AuthRepository(this)
-        repository = RepairRepository(apiService)
+
 
         //TODO: Remove it, only for test
 //        apiTestRunner = ApiTestRunner(repository, lifecycleScope)
@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val token = authRepository.getToken()
             if (token != null) {
+                val apiService = RetrofitInstance.api
+                repository = RepairRepository(apiService, token)  // Pass token here
                 showMainScreen()
             } else {
                 navigateToLoginScreen()
