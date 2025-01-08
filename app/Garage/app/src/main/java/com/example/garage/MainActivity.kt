@@ -42,15 +42,15 @@ class MainActivity : AppCompatActivity() {
             val token = authRepository.getToken()
             if (token != null) {
                 val apiService = RetrofitInstance.api
-                repository = RepairRepository(apiService, token)  // Pass token here
-                showMainScreen()
+                repository = RepairRepository(apiService, token)
+                showMainScreen(repository)
             } else {
                 navigateToLoginScreen()
             }
         }
     }
 
-    private fun showMainScreen() {
+    private fun showMainScreen(repository: RepairRepository) {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_new_order -> {
-                    replaceFragment(NewOrderFragment())
+                    replaceFragment(NewOrderFragment(repository))
                     true
                 }
                 R.id.nav_history -> {
