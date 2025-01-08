@@ -39,7 +39,7 @@ def create_repair_order():
     appointment_date = data.get('appointment_date')
 
     new_order = RepairOrder(
-        user_id=user.id,
+        user_id=user.user_id,
         vehicle_model=vehicle_model,
         description=description,
         appointment_date=datetime.strptime(appointment_date, '%Y-%m-%dT%H:%M:%S')
@@ -68,7 +68,7 @@ def get_user_appointments():
     if not user:
         return jsonify({"message": "User not found."}), 404
 
-    orders = RepairOrder.query.filter_by(user_id=user.id).all()
+    orders = RepairOrder.query.filter_by(user_id=user.user_id).all()
     if not orders:
         return jsonify({"message": "No appointments found for this user."}), 404
     user_appointments = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
@@ -135,7 +135,7 @@ def get_user_repair_history():
     if not user:
         return jsonify({"message": "User not found."}), 404
 
-    history = RepairHistory.query.join(RepairOrder).filter(RepairOrder.user_id == user.id).all()
+    history = RepairHistory.query.join(RepairOrder).filter(RepairOrder.user_id == user.user_id).all()
     history_data = [{
         "repair_history_id": h.id,
         "repair_order_id": h.repair_order_id,
@@ -161,7 +161,7 @@ def rate_workshop():
     comment = data.get('comment')
 
     new_rating = WorkshopRating(
-        user_id=user.id,
+        user_id=user.user_id,
         repair_order_id=repair_order_id,
         rating=rating,
         comment=comment
@@ -189,7 +189,7 @@ def get_repair_orders_by_user():
     if not user:
         return jsonify({"message": "User not found."}), 404
 
-    repair_orders = RepairOrder.query.filter_by(user_id=user.id).all()
+    repair_orders = RepairOrder.query.filter_by(user_id=user.user_id).all()
     if not repair_orders:
         return jsonify({"message": "No orders found for this user."}), 404
     return jsonify([{
