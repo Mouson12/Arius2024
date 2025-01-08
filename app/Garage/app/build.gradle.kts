@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
+//    id("com.google.devtools.ksp")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply true
 }
 
@@ -75,6 +76,13 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.2")
 
     // Retrofit and Room
+    implementation(libs.androidx.runtime.android)
+//    implementation(libs.androidx.material3.android)
+//    implementation(libs.androidx.ui.android)
+//    implementation(libs.androidx.navigation.compose)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
@@ -83,7 +91,10 @@ dependencies {
     implementation("androidx.room:room-ktx:2.5.0")
 
     // Testing
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+//    ksp("androidx.room:room-compiler:2.5.0")
+//    kapt("androidx.room:room-compiler:2.5.0")
 }

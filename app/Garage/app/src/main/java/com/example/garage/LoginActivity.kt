@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToHomeScreen() {
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, HomeFragment::class.java)
         startActivity(intent)
         finish()
     }
