@@ -1,5 +1,6 @@
 package com.example.garage
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,8 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_new_order, container, false)
+
+        setupUIToHideKeyboard(view)
 
         val vehicleModelEditText = view.findViewById<EditText>(R.id.editTextVehicleModel)
         val descriptionEditText = view.findViewById<EditText>(R.id.editTextDescription)
@@ -78,5 +81,25 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
         }
 
         return view
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupUIToHideKeyboard(view: View) {
+        // Jeśli kliknięto poza EditText, schowaj klawiaturę
+        if (view !is EditText) {
+            view.setOnTouchListener { _, _ ->
+                requireActivity().hideKeyboard()  // Ukryj klawiaturę
+                view.clearFocus()  // Usuń focus z EditText
+                true
+            }
+        }
+
+        // Dla wszystkich dzieci widoku
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setupUIToHideKeyboard(innerView)
+            }
+        }
     }
 }
