@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AuthRepository(private val context: Context) {
+class AuthRepository(context: Context) {
 
     private val database = TokenDatabase.getInstance(context)
     private val api = RetrofitInstance.api
