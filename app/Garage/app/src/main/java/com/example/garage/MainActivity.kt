@@ -9,12 +9,22 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var authRepository: AuthRepository
+    private lateinit var repository: RepairRepository
+
+    //TODO: Remove it. Only for test
+    private lateinit var apiTestRunner: ApiTestRunner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val apiService = RetrofitInstance.api
         authRepository = AuthRepository(this)
+        repository = RepairRepository(apiService)
+
+        //TODO: Remove it, only for test
+        apiTestRunner = ApiTestRunner(repository, lifecycleScope)
+        apiTestRunner.runAllTests()
 
         checkTokenAndNavigate()
     }
@@ -41,5 +51,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
 
 }

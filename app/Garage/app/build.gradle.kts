@@ -67,7 +67,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 //    kapt(libs.androidx.room.compiler)
-    ksp("androidx.room:room-compiler:2.5.0")
+    ksp(libs.androidx.room.compiler.v250)
     implementation("androidx.room:room-ktx:2.5.0")
 //    ksp("androidx.room:room-compiler:2.5.0")
 //    kapt("androidx.room:room-compiler:2.5.0")
