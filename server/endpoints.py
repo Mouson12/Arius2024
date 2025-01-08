@@ -47,6 +47,17 @@ def get_appointments():
     taken_dates = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
     return jsonify(taken_dates)
 
+@api.route('/appointments/user/<int:user_id>', methods=['GET'])
+def get_user_appointments(user_id):
+    """
+    Endpoint to retrieve all appointments for a specific user by their user ID.
+    """
+    orders = RepairOrder.query.filter_by(user_id=user_id).all()
+    if not orders:
+        return jsonify({"message": "No appointments found for this user."}), 404
+    user_appointments = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
+    return jsonify(user_appointments)
+
 @api.route('/repair_complete', methods=['POST'])
 def complete_repair():
     """
@@ -85,6 +96,7 @@ def complete_repair():
                              .replace("{{ report }}", report)
 
     # Wysyłanie e-maila z HTML
+    # TODO: In email price, report of services
     msg = Message(
         subject="Repair Completed",
         recipients=[user_email],
@@ -142,21 +154,21 @@ def get_ratings():
     ratings = WorkshopRating.query.all()
     return jsonify([{"id": r.id, "user_id": r.user_id, "repair_order_id": r.repair_order_id, "rating": r.rating, "comment": r.comment} for r in ratings])
 
-@api.route('/repair_orders/<int:order_id>', methods=['GET'])
-def get_repair_order(order_id):
+@api.route('/repair_orders/user/<int:user_id>', methods=['GET'])
+def get_repair_orders_by_user(user_id):
     """
-    Endpoint to retrieve a specific repair order by its ID.
+    Endpoint to retrieve all repair orders for a specific user by their user ID.
     """
-    repair_order = RepairOrder.query.get(order_id)
-    if not repair_order:
-        return jsonify({"message": "Order not found."}), 404
-    return jsonify({
-        "order_id": repair_order.id,
-        "vehicle_model": repair_order.vehicle_model,
-        "description": repair_order.description,
-        "status": repair_order.status,
-        "appointment_date": repair_order.appointment_date.isoformat()
-    })
+    repair_orders = RepairOrder.query.filter_by(user_id=user_id).all()
+    if not repair_orders:
+        return jsonify({"message": "No orders found for this user."}), 404
+    return jsonify([{
+        "order_id": ro.id,
+        "vehicle_model": ro.vehicle_model,
+        "description": ro.description,
+        "status": ro.status,
+        "appointment_date": ro.appointment_date.isoformat()
+    } for ro in repair_orders])
     
 @api.route('/repair_orders/<int:order_id>', methods=['PUT'])
 def update_repair_order(order_id):
