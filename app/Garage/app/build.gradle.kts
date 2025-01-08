@@ -72,10 +72,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 //    kapt(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler.v250)
+    implementation("com.applandeo:material-calendar-view:1.9.2")
     implementation("androidx.room:room-ktx:2.5.0")
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material3:material3:1.1.0")
     implementation("androidx.activity:activity-compose:1.7.0")
+
 
 //    ksp("androidx.room:room-compiler:2.5.0")
 //    kapt("androidx.room:room-compiler:2.5.0")
