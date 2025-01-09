@@ -61,37 +61,60 @@ const CreateRepairOrder = () => {
     };
 
     return (
-        <div>
+        <div >
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>MODEL SAMOCHODU:</label>
+                <div
+                    style={{
+                        marginBottom: '15px',
+                        padding: "0px 20px",
+                    }}
+                >
+                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'white' }}>
+                        MODEL SAMOCHODU:
+                    </label>
                     <input
                         type="text"
                         value={vehicleModel}
                         onChange={(e) => setVehicleModel(e.target.value)}
-                        placeholder="Enter vehicle model"
+                        placeholder="Wpisz model samochodu"
                         required
+                        style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
                     />
                 </div>
-                <div>
-                    <label>OPIS SERWISU:</label>
+                <div style={{ marginBottom: '15px', padding: "0px 20px", }}>
+                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'white' }}>
+                        OPIS SERWISU:
+                    </label>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter description of the repair"
+                        placeholder="Wpisz opis naprawy"
                         required
+                        style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px', minHeight: '60px' }}
                     />
                 </div>
-                <div>
-                    <label>DATA SERWISU:</label>
+                <div style={{ marginBottom: '15px', padding: "0px 20px", }}>
+                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'white' }}>
+                        DATA SERWISU:
+                    </label>
                     <input
                         type="datetime-local"
                         value={appointmentDate}
                         onChange={(e) => setAppointmentDate(e.target.value)}
                         required
+                        style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
                     />
                 </div>
-                <button type="submit">Create Order</button>
+                <div
+                    style={{
+                        marginBottom: '15px',
+                        paddingLeft: '20px'
+                    }}
+                >
+                    <button type="submit">
+                        Create Order
+                    </button>
+                </div>
             </form>
             {message && <p>{message}</p>}
         </div>

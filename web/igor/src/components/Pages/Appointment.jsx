@@ -1,5 +1,7 @@
 import React from "react";
 import CreateRepairOrder from "../CreateRepairOrder";
+import HeaderTopic from "../HeaderTopic";
+import ScrollableList from "../ScrollableList";
 
 const Appointments = () => {
     const token = localStorage.getItem("token");
@@ -24,21 +26,36 @@ const Appointments = () => {
                     height: "80vh",
                 }}
             >
-                {/* Nagłówek PROFIL */}
+                <HeaderTopic header_text={"USŁUGI SERWISOWE"} underline_width={"25%"} fontSize={"40px"}></HeaderTopic>
                 <div
                     style={{
-                        color: "white",
-                        fontSize: "40px",
-                        textAlign: "left",
-                        fontWeight: "bold",
-                        width: "100%",
-                        marginBottom: "20px", // Dodanie odstępu
+                        // padding: "0px 20px",
+                        display: "flex",
+                        // gap: "200px",
+                        // justifyContent: "space-evenly", // Równe rozmieszczenie
+                        alignItems: "flex-start", // Opcjonalnie wyrównanie w pionie
+                        width: "100%", // Dopasowanie szerokości do rodzica
+                        gap: "20px", // Odstęp między divami
                     }}
                 >
-                    UMÓW SIĘ NA SPOTKANIE
-                    <hr style={{ border: "1px solid rgb(133, 0, 0)", width: "47%", margin: "10px 0" }} />
+                    <div
+                        style={{
+                            paddingLeft: "30px"
+                        }}
+                    >
+                        <HeaderTopic header_text={"UMÓW SIĘ NA SERWIS"} underline_width={"25%"} fontSize={"30px"}></HeaderTopic>
+                        <CreateRepairOrder></CreateRepairOrder>
+                    </div>
+                    <div
+                        style={{
+                            // padding: "0px 100px",
+                            paddingLeft: "200px"
+                        }}
+                    >
+                        <HeaderTopic header_text={"HISTORIA USŁUG SERWISOWYCH"} underline_width={"30%"} fontSize={"30px"}></HeaderTopic>
+                        <ScrollableList />
+                    </div>
                 </div>
-                <CreateRepairOrder></CreateRepairOrder>
             </div>
         </div>
     );

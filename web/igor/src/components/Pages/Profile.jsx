@@ -1,6 +1,7 @@
 import React from "react";
 import profileIcon from "../../assets/profileIcon.jpg"; // Import obrazu
 import ScrollableList from "../ScrollableList";
+import HeaderTopic from "../HeaderTopic";
 
 const Profile = () => {
     const token = localStorage.getItem("token");
@@ -65,21 +66,8 @@ const Profile = () => {
                         <strong>EMAIL:</strong> jan.kowalski@example.com
                     </p>
                 </div>
-
                 {/* Sekcja HISTORIA USŁUG */}
-                <div
-                    style={{
-                        color: "white",
-                        fontSize: "30px",
-                        textAlign: "left",
-                        fontWeight: "bold",
-                        width: "100%",
-                        marginBottom: "10px", // Dodanie odstępu
-                    }}
-                >
-                    HISTORIA USŁUG
-                    <hr style={{ border: "1px solid rgb(133, 0, 0)", width: "23%", margin: "10px 0" }} />
-                </div>
+                <HeaderTopic header_text={"AKTUALNE SERWISY"} underline_width={"23%"} fontSize={"30px"}></HeaderTopic>
                 {/* Lista scrollowana */}
                 <ScrollableList />
             </div>
