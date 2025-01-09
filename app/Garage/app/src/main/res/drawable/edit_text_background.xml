@@ -1,0 +1,16 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <!-- Cień -->
+        <shape android:shape="rectangle">
+            <solid android:color="#80000000" /> <!-- Szary półprzezroczysty -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <item android:top="2dp" android:bottom="2dp" android:left="2dp" android:right="2dp">
+        <!-- Właściwe tło -->
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" /> <!-- Białe tło -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+</layer-list>
