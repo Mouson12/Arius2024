@@ -27,7 +27,7 @@ services:
             - FLASK_ENV=development
         depends_on:
             - postgres
-        entrypoint: [ "/server/wait-for-db.sh", "postgres", "flask", "run", "--host=0.0.0.0", "--port=5000" ]
+        entrypoint: [ "/server/wait-for-db.sh", "garage_db", "flask", "run", "--host=0.0.0.0", "--port=5000" ]
     # web:
     #     build:
     #         context: .

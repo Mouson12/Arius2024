@@ -1,0 +1,25 @@
+.repair-history-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.repair-history-item {
+    color: black;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.repair-history-item:last-child {
+    border-bottom: none;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
