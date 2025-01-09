@@ -1,7 +1,6 @@
 import React from "react";
 import profileIcon from "../../assets/profileIcon.jpg"; // Import obrazu
 import ScrollableList from "../ScrollableList";
-import RepairHistory from "../ RepairHistory";
 
 const Profile = () => {
     const token = localStorage.getItem("token");
@@ -82,7 +81,7 @@ const Profile = () => {
                     <hr style={{ border: "1px solid rgb(133, 0, 0)", width: "23%", margin: "10px 0" }} />
                 </div>
                 {/* Lista scrollowana */}
-                <ScrollableList auth_token={token} />
+                <ScrollableList />
             </div>
         </div>
     );

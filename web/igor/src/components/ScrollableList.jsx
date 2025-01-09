@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ScrollableList.css";
 
-const ScrollableList = ({ auth_token }) => {
+const ScrollableList = () => {
     const [repairHistory, setRepairHistory] = useState([]); // Stan na dane z API
     const [error, setError] = useState(null); // Obsługa błędów
     const [loading, setLoading] = useState(true); // Obsługa ładowania danych

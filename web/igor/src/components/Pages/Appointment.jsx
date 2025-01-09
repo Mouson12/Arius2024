@@ -1,6 +1,5 @@
 import React from "react";
-import profileIcon from "../../assets/profileIcon.jpg"; // Import obrazu
-import ScrollableList from "../ScrollableList";
+import CreateRepairOrder from "../CreateRepairOrder";
 
 const Appointments = () => {
     const token = localStorage.getItem("token");
@@ -39,6 +38,7 @@ const Appointments = () => {
                     UMÓW SIĘ NA SPOTKANIE
                     <hr style={{ border: "1px solid rgb(133, 0, 0)", width: "47%", margin: "10px 0" }} />
                 </div>
+                <CreateRepairOrder></CreateRepairOrder>
             </div>
         </div>
     );

@@ -20,7 +20,7 @@ def get_user_data():
     """
     Endpoint to retrieve user data based on JWT identity.
     """
-    user = get_jwt_identity()
+    user = get_user_by_jwt()
     if not user:
         return jsonify({"message": "User not found."}), 404
     
