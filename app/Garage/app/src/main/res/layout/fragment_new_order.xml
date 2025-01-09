@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".NewOrderFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,40 +13,63 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Pole do wpisania modelu pojazdu -->
         <EditText
             android:id="@+id/editTextVehicleModel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Model pojazdu"
+            android:layout_marginTop="8dp"
             android:inputType="text" />
-
+        <!-- Pole do wpisania opisu usterki -->
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:hint="Opis usterki"
             android:gravity="top"
             android:inputType="textMultiLine"
-            android:minLines="6" />
+            android:layout_marginTop="8dp"
+            android:minLines="6"
+            android:background="@android:drawable/edit_text" />
 
-        <Button
-            android:id="@+id/buttonSelectDate"
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wybierz datę wizyty" />
+            android:dateTextAppearance="@style/WhiteTextAppearance"
+            android:weekDayTextAppearance="@style/WhiteTextAppearance"
+            app:selectionColor="@android:color/transparent"
+            android:background="@android:color/white"
+            app:headerColor="@android:color/white"
+            app:headerLabelColor="@color/black"
+            app:abbreviationsLabelsColor="@color/black"
+            app:selectionLabelColor="@color/black"
+            app:maximumDaysRange="31"
+            android:layout_marginBottom="8dp" />
 
+
+        <!-- Tekst informujący o wybranej dacie -->
         <TextView
             android:id="@+id/textViewSelectedDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Data nie wybrana"
             android:textSize="16sp"
-            android:paddingTop="8dp" />
+            android:textColor="@android:color/black"
+            android:layout_marginTop="2dp"
+            android:padding="8dp"
+            android:background="@android:color/white"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/buttonSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Złóż zamówienie" />
+            android:layout_marginTop="16dp"
+            android:text="Złóż zamówienie"
+            android:textStyle="bold"
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </ScrollView>

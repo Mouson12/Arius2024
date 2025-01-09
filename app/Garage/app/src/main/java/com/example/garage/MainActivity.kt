@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             val token = authRepository.getToken()
             if (token != null) {
                 val apiService = RetrofitInstance.api
-                repository = RepairRepository(apiService, token)
+                repository = RepairRepository(apiService, token)  // Pass token here
                 showMainScreen(repository)
             } else {
                 navigateToLoginScreen()

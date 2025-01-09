@@ -80,9 +80,6 @@ dependencies {
 //    implementation(libs.androidx.material3.android)
 //    implementation(libs.androidx.ui.android)
 //    implementation(libs.androidx.navigation.compose)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
@@ -93,8 +90,13 @@ dependencies {
     // Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-}
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+//    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler.v250)
+    implementation("com.applandeo:material-calendar-view:1.9.2")
+    implementation("androidx.room:room-ktx:2.5.0")
+
 
 //    ksp("androidx.room:room-compiler:2.5.0")
 //    kapt("androidx.room:room-compiler:2.5.0")
-//}
+}
