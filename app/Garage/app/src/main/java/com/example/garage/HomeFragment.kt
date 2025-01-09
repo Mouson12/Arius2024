@@ -17,7 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class HomeFragment : Fragment() {
 
     private lateinit var apiService: ApiService
-    private lateinit var usernameTextView: TextView
     private lateinit var servicesRecyclerView: RecyclerView
     private val servicesAdapter = ServicesAdapter()
 
@@ -27,7 +26,6 @@ class HomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.activity_home, container, false)
 
-        usernameTextView = rootView.findViewById(R.id.usernameTextView)
         servicesRecyclerView = rootView.findViewById(R.id.servicesRecyclerView)
 
         servicesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -38,9 +36,6 @@ class HomeFragment : Fragment() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
-
-        val username = arguments?.getString("USERNAME") ?: "Użytkownik"
-        usernameTextView.text = "Witam, $username"
 
         loadServices()
 
