@@ -37,12 +37,18 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:dateTextAppearance="?android:attr/textAppearanceMedium"
-            android:weekDayTextAppearance="?android:attr/textAppearanceSmall"
-            android:focusedMonthDateColor="#000000"
-            android:unfocusedMonthDateColor="#CCCCCC"
-            android:showWeekNumber="false" />
+            android:dateTextAppearance="@style/WhiteTextAppearance"
+            android:weekDayTextAppearance="@style/WhiteTextAppearance"
+            app:selectionColor="@android:color/transparent"
+            android:background="@android:color/white"
+            app:headerColor="@android:color/white"
+            app:headerLabelColor="@color/black"
+            app:abbreviationsLabelsColor="@color/black"
+            app:selectionLabelColor="@color/black"
+            app:maximumDaysRange="31"
+            android:layout_marginBottom="8dp" />
+
+
         <!-- Tekst informujący o wybranej dacie -->
         <TextView
             android:id="@+id/textViewSelectedDate"
