@@ -14,6 +14,31 @@ def get_user_by_jwt():
     user = User.query.get(user_id)
     return user
 
+@api.route('/user_data', methods=['GET'])
+@jwt_required()
+def get_user_data():
+    """
+    Endpoint to retrieve user data based on JWT identity.
+    """
+    user_id = get_jwt_identity()
+    if not user_id:
+        return jsonify({"message": "User not found."}), 404
+
+    # Pobierz użytkownika na podstawie user_id
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"message": "No user found for this token."}), 404
+    
+    user_data = {
+        "user_id": user.user_id,
+        "username": user.username,
+        "email": user.email,
+        "created_at": user.created_at.isoformat()
+    }
+
+    return jsonify(user_data), 200
+
+
 
 @api.route('/services', methods=['GET'])
 def get_services():
