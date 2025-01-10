@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./ScrollableList.css";
 
-const ScrollableList = () => {
-    const [repairHistory, setRepairHistory] = useState([]); // Stan na dane z API
+const AppointmentList = () => {
+    const [appointmentList, setAppointmentList] = useState([]); // Stan na dane z API
     const [error, setError] = useState(null); // Obsługa błędów
     const [loading, setLoading] = useState(true); // Obsługa ładowania danych
 
-    const fetchRepairHistory = async () => {
+    const fetchAppointmentList = async () => {
         const token = localStorage.getItem("token"); // Pobranie tokenu z localStorage
 
         if (!token) {
@@ -16,7 +16,7 @@ const ScrollableList = () => {
         }
 
         try {
-            const response = await fetch("http://157.90.162.7:5001/api/repair_history", {
+            const response = await fetch("http://157.90.162.7:5001/api/repair_orders/user", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`, // Dodanie tokenu do nagłówka
@@ -33,7 +33,7 @@ const ScrollableList = () => {
             }
 
             const data = await response.json();
-            setRepairHistory(data); // Ustawienie danych w stanie
+            setAppointmentList(data); // Ustawienie danych w stanie
         } catch (err) {
             setError(err.message);
         } finally {
@@ -42,7 +42,7 @@ const ScrollableList = () => {
     };
 
     useEffect(() => {
-        fetchRepairHistory();
+        fetchAppointmentList();
     }, []); // Wywołanie przy montowaniu komponentu
 
     if (loading) {
@@ -55,18 +55,23 @@ const ScrollableList = () => {
 
     return (
         <div className="error-message">
-            {repairHistory.length === 0 ? ( // Sprawdzenie, czy lista jest pusta
-                <p>Brak historii napraw</p>
+            {appointmentList.length === 0 ? (
+                <p>Brak umówionych serwisów</p>
             ) : (
-                repairHistory.map((history, index) => (
-                    <div key={index} className="repair-history-item">
-                        <strong>Serwis #{history.service_id}</strong>: {history.report} (Zakończono: {new Date(history.completed_at).toLocaleString()})
-                    </div>
-                ))
+                <div className="scroll-container">
+                    {appointmentList.map((appointment, index) => (
+                        <div key={index} className="list-item">
+                            <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
+                            <strong>OPIS:</strong> {appointment.description} <br />
+                            <strong>STATUS:</strong> {appointment.status} <br />
+                            <strong>DATA SERWISU:</strong> {appointment.appointment_date}
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );
 };
 
-export default ScrollableList;
+export default AppointmentList;
 

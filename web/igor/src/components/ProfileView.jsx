@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./ScrollableList.css";
 
-const ScrollableList = () => {
-    const [repairHistory, setRepairHistory] = useState([]); // Stan na dane z API
+const ProfileView = () => {
+    const [profile, setProfile] = useState([]); // Stan na dane z API
     const [error, setError] = useState(null); // Obsługa błędów
     const [loading, setLoading] = useState(true); // Obsługa ładowania danych
 
-    const fetchRepairHistory = async () => {
+    const fetchProfileData = async () => {
         const token = localStorage.getItem("token"); // Pobranie tokenu z localStorage
 
         if (!token) {
@@ -16,7 +16,7 @@ const ScrollableList = () => {
         }
 
         try {
-            const response = await fetch("http://157.90.162.7:5001/api/repair_history", {
+            const response = await fetch("http://157.90.162.7:5001/api/user_data", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`, // Dodanie tokenu do nagłówka
@@ -33,7 +33,7 @@ const ScrollableList = () => {
             }
 
             const data = await response.json();
-            setRepairHistory(data); // Ustawienie danych w stanie
+            setProfile(data); // Ustawienie danych w stanie
         } catch (err) {
             setError(err.message);
         } finally {
@@ -42,7 +42,7 @@ const ScrollableList = () => {
     };
 
     useEffect(() => {
-        fetchRepairHistory();
+        fetchProfileData();
     }, []); // Wywołanie przy montowaniu komponentu
 
     if (loading) {
@@ -55,18 +55,18 @@ const ScrollableList = () => {
 
     return (
         <div className="error-message">
-            {repairHistory.length === 0 ? ( // Sprawdzenie, czy lista jest pusta
-                <p>Brak historii napraw</p>
+            {profile.length === 0 ? ( // Sprawdzenie, czy lista jest pusta
+                <p>Brak danych uzytkownika</p>
             ) : (
-                repairHistory.map((history, index) => (
-                    <div key={index} className="repair-history-item">
-                        <strong>Serwis #{history.service_id}</strong>: {history.report} (Zakończono: {new Date(history.completed_at).toLocaleString()})
-                    </div>
-                ))
+                <p>
+                    <strong>NAZWA UŻYTKOWNIKA:</strong> profile.user_id<br />
+                    <strong>EMAIL:</strong> profile.email<br />
+                    <strong>DATA DOŁĄCZENIA:</strong> profile.reated_at<br />
+                </p>
             )}
         </div>
     );
 };
 
-export default ScrollableList;
+export default ProfileView;
 

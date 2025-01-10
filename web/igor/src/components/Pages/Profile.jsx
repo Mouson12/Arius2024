@@ -1,7 +1,8 @@
 import React from "react";
 import profileIcon from "../../assets/profileIcon.jpg"; // Import obrazu
-import ScrollableList from "../ScrollableList";
+import AppointmentList from "../AppointmentList";
 import HeaderTopic from "../HeaderTopic";
+import ProfileView from "../ProfileView";
 
 const Profile = () => {
     const token = localStorage.getItem("token");
@@ -9,7 +10,14 @@ const Profile = () => {
     console.log("Token z localStorage:", localStorage.getItem("token"));
 
     return (
-        <div className="profile-background" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <div className="profile-background"
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh"
+            }}
+        >
             <div
                 style={{
                     width: "85%",
@@ -61,15 +69,16 @@ const Profile = () => {
                             marginRight: "20px",
                         }}
                     />
-                    <p>
+                    <ProfileView></ProfileView>
+                    {/* <p>
                         <strong>NAZWA UŻYTKOWNIKA:</strong> JanKowalski<br />
                         <strong>EMAIL:</strong> jan.kowalski@example.com
-                    </p>
+                    </p> */}
                 </div>
                 {/* Sekcja HISTORIA USŁUG */}
                 <HeaderTopic header_text={"AKTUALNE SERWISY"} underline_width={"23%"} fontSize={"30px"}></HeaderTopic>
                 {/* Lista scrollowana */}
-                <ScrollableList />
+                <AppointmentList />
             </div>
         </div>
     );

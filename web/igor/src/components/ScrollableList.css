@@ -1,17 +1,18 @@
 .scroll-container {
     /* max-height: 20wh; */
-    max-height: 25vw;
+    max-height: 40vh;
     /* Ustaw maksymalną wysokość kontenera */
     overflow-y: auto;
     /* Włącz przewijanie w osi pionowej */
     position: absolute;
     /* top: 41%; */
-    border: 1px solid #ccc;
+    border: 1px solid white;
     /* padding: 10px; */
     margin: 0 auto;
     width: 95%;
     /* Ustaw szerokość kontenera */
-    background-color: #f9f9f9;
+    background-color: black;
+    /* background-color: rgb(75, 0, 0); */
     border-radius: 8px;
 }
 
@@ -25,7 +26,7 @@
 }
 
 .list-item:hover {
-    background-color: #f0f0f0;
+    background-color: rgb(110, 0, 0);
     /* background-color: #000000; */
     /* Efekt podświetlenia elementu */
     cursor: pointer;
@@ -54,7 +55,7 @@
 }
 
 .error-message {
-    color: red;
+    color: #ddd;
     font-size: 20px;
-    text-align: center;
+    /* text-align: center; */
 }
