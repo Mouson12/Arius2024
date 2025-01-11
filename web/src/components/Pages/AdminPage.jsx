@@ -1,15 +1,22 @@
 import React from "react";
-import CreateRepairOrder from "../CreateRepairOrder";
+import AppointmentsCalendar from "../AppointmentsCalendar";
 import HeaderTopic from "../HeaderTopic";
-import ScrollableList from "../ScrollableList";
 
-const Appointments = () => {
+
+const Admin = () => {
     const token = localStorage.getItem("token");
     console.log("Token z localStorage:", token); // Debug
     console.log("Token z localStorage:", localStorage.getItem("token"));
 
     return (
-        <div className="profile-background" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <div className="profile-background"
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh"
+            }}
+        >
             <div
                 style={{
                     width: "85%",
@@ -26,10 +33,14 @@ const Appointments = () => {
                     height: "80vh",
                 }}
             >
-                <HeaderTopic header_text={"USŁUGI SERWISOWE"} underline_width={"25%"} fontSize={"40px"}></HeaderTopic>
+                {/* Nagłówek PROFIL */}
+                <HeaderTopic header_text={"PANEL STEROWANIA"} underline_width={"20%"} fontSize={"40px"}></HeaderTopic>
                 <div
                     style={{
+                        // padding: "0px 20px",
                         display: "flex",
+                        // gap: "200px",
+                        // justifyContent: "space-evenly", // Równe rozmieszczenie
                         alignItems: "flex-start", // Opcjonalnie wyrównanie w pionie
                         width: "100%", // Dopasowanie szerokości do rodzica
                         gap: "20px", // Odstęp między divami
@@ -40,17 +51,15 @@ const Appointments = () => {
                             paddingLeft: "30px"
                         }}
                     >
-                        <HeaderTopic header_text={"UMÓW SIĘ NA SERWIS"} underline_width={"25%"} fontSize={"30px"}></HeaderTopic>
-                        <CreateRepairOrder></CreateRepairOrder>
+                        <HeaderTopic header_text={"STATUS SERWISÓW"} underline_width={"25%"} fontSize={"30px"}></HeaderTopic>
                     </div>
                     <div
                         style={{
-                            // padding: "0px 100px",
                             paddingLeft: "200px"
                         }}
                     >
-                        <HeaderTopic header_text={"HISTORIA USŁUG SERWISOWYCH"} underline_width={"30%"} fontSize={"30px"}></HeaderTopic>
-                        <ScrollableList />
+                        <HeaderTopic header_text={"UMÓWIONE SERWISY"} underline_width={"30%"} fontSize={"30px"}></HeaderTopic>
+                        <AppointmentsCalendar></AppointmentsCalendar>
                     </div>
                 </div>
             </div>
@@ -58,4 +67,4 @@ const Appointments = () => {
     );
 };
 
-export default Appointments;
+export default Admin;

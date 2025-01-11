@@ -59,15 +59,18 @@ const AppointmentList = () => {
                 <p>Brak umówionych serwisów</p>
             ) : (
                 <div className="scroll-container">
-                    {appointmentList.map((appointment, index) => (
-                        <div key={index} className="list-item">
-                            <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
-                            <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
-                            <strong>OPIS:</strong> {appointment.description} <br />
-                            <strong>STATUS i NUMER ZAMÓWIENIA:</strong> {appointment.status} {appointment.order_id} <br />
-                            <strong>DATA SERWISU:</strong> {appointment.appointment_date}
-                        </div>
-                    ))}
+                    {
+                        appointmentList
+                            .filter(appointment => appointment.status === "Pending") // Filtrujemy tylko spotkania o statusie 'pending'
+                            .map((appointment, index) => (
+                                <div key={index} className="list-item">
+                                    <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
+                                    <strong>OPIS:</strong> {appointment.description} <br />
+                                    <strong>STATUS i NUMER ZAMÓWIENIA:</strong> {appointment.status} {appointment.order_id} <br />
+                                    <strong>DATA SERWISU:</strong> {new Date(appointment.appointment_date).toLocaleString()}
+                                </div>
+                            ))
+                    }
                 </div>
             )}
         </div>
