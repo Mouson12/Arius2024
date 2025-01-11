@@ -72,18 +72,6 @@ const AppointmentList = () => {
                             ))
                     }
                 </div>
-                // <div className="scroll-container">
-                //     {
-                //         appointmentList.map((appointment, index) => (
-                //             <div key={index} className="list-item">
-                //                 <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
-                //                 <strong>OPIS:</strong> {appointment.description} <br />
-                //                 <strong>STATUS i NUMER ZAMÓWIENIA:</strong> {appointment.status} {appointment.order_id} <br />
-                //                 <strong>DATA SERWISU:</strong> {new Date(appointment.appointment_date).toLocaleString()}
-                //             </div>
-                //         ))
-                //     }
-                // </div>
             )}
         </div>
     );
