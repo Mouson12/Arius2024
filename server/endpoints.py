@@ -14,6 +14,24 @@ def get_user_by_jwt():
     user = User.query.get(user_id)
     return user
 
+# ********************************************* ZROBIONE *********************************************
+
+@api.route('/user_data', methods=['GET'])
+@jwt_required()
+def get_user_data():
+    """
+    Endpoint to retrieve user data based on JWT identity.
+    """
+    user = get_user_by_jwt()
+    if not user:
+        return jsonify({"message": "User not found."}), 404
+    
+    return jsonify({
+        "user_id": user.user_id,
+        "username": user.username,
+        "email": user.email,
+        "created_at": user.created_at.isoformat()
+    })
 
 @api.route('/services', methods=['GET'])
 def get_services():
@@ -22,6 +40,8 @@ def get_services():
     """
     services = Service.query.all()
     return jsonify([{"id": s.id, "name": s.name, "description": s.description, "price": s.price} for s in services])
+
+# ********************************************* ZROBIONE *********************************************
 
 @api.route('/repair_orders', methods=['POST'])
 @jwt_required()
@@ -39,7 +59,7 @@ def create_repair_order():
     appointment_date = data.get('appointment_date')
 
     new_order = RepairOrder(
-        user_id=user.id,
+        user_id=user.user_id,
         vehicle_model=vehicle_model,
         description=description,
         appointment_date=datetime.strptime(appointment_date, '%Y-%m-%dT%H:%M:%S')
@@ -58,6 +78,8 @@ def get_appointments():
     taken_dates = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
     return jsonify(taken_dates)
 
+# ********************************************* ADMIN *********************************************
+
 @api.route('/appointments/user', methods=['GET'])
 @jwt_required()
 def get_user_appointments():
@@ -68,11 +90,13 @@ def get_user_appointments():
     if not user:
         return jsonify({"message": "User not found."}), 404
 
-    orders = RepairOrder.query.filter_by(user_id=user.id).all()
+    orders = RepairOrder.query.filter_by(user_id=user.user_id).all()
     if not orders:
         return jsonify({"message": "No appointments found for this user."}), 404
     user_appointments = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
     return jsonify(user_appointments)
+
+# ********************************************* ADMIN *********************************************
 
 @api.route('/repair_complete', methods=['POST'])
 def complete_repair():
@@ -125,6 +149,8 @@ def complete_repair():
     except Exception as e:
         return jsonify({"message": f"Repair completed, but email sending failed: {str(e)}"}), 500
 
+# ********************************************* ZROBIONE *********************************************
+
 @api.route('/repair_history', methods=['GET'])
 @jwt_required()
 def get_user_repair_history():
@@ -135,7 +161,7 @@ def get_user_repair_history():
     if not user:
         return jsonify({"message": "User not found."}), 404
 
-    history = RepairHistory.query.join(RepairOrder).filter(RepairOrder.user_id == user.id).all()
+    history = RepairHistory.query.join(RepairOrder).filter(RepairOrder.user_id == user.user_id).all()
     history_data = [{
         "repair_history_id": h.id,
         "repair_order_id": h.repair_order_id,
@@ -144,6 +170,8 @@ def get_user_repair_history():
         "completed_at": h.completed_at.isoformat()
     } for h in history]
     return jsonify(history_data)
+
+# ********************************************* DO ZROBIENIA *********************************************
 
 @api.route('/ratings', methods=['POST'])
 @jwt_required()
@@ -161,7 +189,7 @@ def rate_workshop():
     comment = data.get('comment')
 
     new_rating = WorkshopRating(
-        user_id=user.id,
+        user_id=user.user_id,
         repair_order_id=repair_order_id,
         rating=rating,
         comment=comment
@@ -170,6 +198,9 @@ def rate_workshop():
     db.session.commit()
 
     return jsonify({"message": "Rating submitted successfully."}), 201
+    
+
+# ********************************************* DO ZROBIENIA *********************************************
 
 @api.route('/ratings', methods=['GET'])
 def get_ratings():
@@ -179,6 +210,7 @@ def get_ratings():
     ratings = WorkshopRating.query.all()
     return jsonify([{"id": r.id, "user_id": r.user_id, "repair_order_id": r.repair_order_id, "rating": r.rating, "comment": r.comment} for r in ratings])
 
+# ********************************************* ZROBIONE *********************************************
 @api.route('/repair_orders/user', methods=['GET'])
 @jwt_required()
 def get_repair_orders_by_user():
@@ -189,7 +221,7 @@ def get_repair_orders_by_user():
     if not user:
         return jsonify({"message": "User not found."}), 404
 
-    repair_orders = RepairOrder.query.filter_by(user_id=user.id).all()
+    repair_orders = RepairOrder.query.filter_by(user_id=user.user_id).all()
     if not repair_orders:
         return jsonify({"message": "No orders found for this user."}), 404
     return jsonify([{
