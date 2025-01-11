@@ -1,0 +1,39 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    /* Aby wypełnić szerokość */
+    max-width: 100%;
+    /* Ograniczenie szerokości z 2 cm odstępem po obu stronach */
+    margin: 0 auto;
+    /* Wycentrowanie całego navbar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 10px 0; */
+    padding: 15px 20px;
+    /* Odstęp wewnątrz paska */
+    background-color: #000000;
+    color: white;
+    z-index: 10;
+    /* Aby navbar był zawsze widoczny */
+    box-sizing: border-box;
+    /* Upewnij się, że padding jest uwzględniony */
+}
+
+.navbar a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    margin: 10px 15px;
+    /* Odstępy między linkami */
+    font-size: 18px;
+    /* Rozmiar czcionki dla czytelności */
+}
+
+.navbar a:hover {
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(133, 0, 0);
+}
