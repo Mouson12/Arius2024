@@ -1,29 +1,3 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import "./Navbar.css";
-
-// const ProfileNavBar = () => {
-//     return (
-//         <nav className="navbar">
-//             <div className="logo">Car Workshop</div>
-//             <div className="nav-links">
-//                 <Link to="/">STRONA GŁÓWNA</Link>
-//                 <button onClick={handleLogout} className="logout-button">
-//                     WYLOGUJ SIĘ
-//                 </button>
-//                 {/* <Link to="/">WYLOGUJ SIĘ</Link> */}
-//                 <Link to="/review">DAJ NAM OCENĘ</Link>
-//                 <Link to="/appointment">UMÓW SIĘ NA SPOTKANIE</Link>
-//                 <Link to="/profile">PROFIL</Link>
-//             </div>
-//         </nav>
-//     );
-// };
-
-
-// export default ProfileNavBar;
-
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom"; // Dodajemy useNavigate
 import "./Navbar.css";

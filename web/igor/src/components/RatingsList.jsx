@@ -54,22 +54,6 @@ const ReviewList = () => {
     }
 
     return (
-        // <div className="error-message">
-        //     {reviewList.length === 0 ? (
-        //         <p>Brak umówionych serwisów</p>
-        //     ) : (
-        //         <div className="scroll-review-list">
-        //             {reviewList.map((rating, index) => (
-        //                 <div key={index} className="list-item">
-        //                     <strong>NR:</strong> {rating.id} <br />
-        //                     <strong>UŻYTKOWNIK:</strong> {rating.user_id} <br />
-        //                     <strong>OCENA:</strong> {rating.rating} <br />
-        //                     <strong>KOMENTARZ:</strong> {rating.comment} <br />
-        //                 </div>
-        //             ))}
-        //         </div>
-        //     )}
-        // </div>
         <div className="error-message">
             {reviewList.length === 0 ? (
                 <p>Brak umówionych serwisów</p>

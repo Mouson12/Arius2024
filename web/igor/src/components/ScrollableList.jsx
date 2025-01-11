@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ScrollableList.css";
 
 const ScrollableList = () => {
@@ -55,15 +55,22 @@ const ScrollableList = () => {
 
     return (
         <div className="error-message">
-            {repairHistory.length === 0 ? ( // Sprawdzenie, czy lista jest pusta
-                <p>Brak historii napraw</p>
-            ) : (
-                repairHistory.map((history, index) => (
-                    <div key={index} className="repair-history-item">
-                        <strong>Serwis #{history.service_id}</strong>: {history.report} (Zakończono: {new Date(history.completed_at).toLocaleString()})
+            {
+                repairHistory.length === 0 ? ( // Sprawdzenie, czy lista jest pusta
+                    <p>Brak historii napraw</p>
+                ) : (
+                    <div className="scroll-container-history">
+                        {
+                            repairHistory.map((history, index) => (
+                                <div key={index} className="list-item">
+                                    <strong>Serwis {history.repair_order_id}</strong>: {history.report} <br />
+                                    <strong>Zakończono:</strong> {new Date(history.completed_at).toLocaleString()}
+                                </div>
+                            ))
+                        }
                     </div>
-                ))
-            )}
+                )
+            }
         </div>
     );
 };

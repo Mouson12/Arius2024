@@ -29,10 +29,7 @@ const Appointments = () => {
                 <HeaderTopic header_text={"USŁUGI SERWISOWE"} underline_width={"25%"} fontSize={"40px"}></HeaderTopic>
                 <div
                     style={{
-                        // padding: "0px 20px",
                         display: "flex",
-                        // gap: "200px",
-                        // justifyContent: "space-evenly", // Równe rozmieszczenie
                         alignItems: "flex-start", // Opcjonalnie wyrównanie w pionie
                         width: "100%", // Dopasowanie szerokości do rodzica
                         gap: "20px", // Odstęp między divami
