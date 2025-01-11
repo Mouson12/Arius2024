@@ -59,9 +59,9 @@ const ProfileView = () => {
                 <p>Brak danych uzytkownika</p>
             ) : (
                 <p>
-                    <strong>NAZWA UŻYTKOWNIKA:</strong> profile.user_id<br />
-                    <strong>EMAIL:</strong> profile.email<br />
-                    <strong>DATA DOŁĄCZENIA:</strong> profile.created_at
+                    <strong>NAZWA UŻYTKOWNIKA:</strong> {profile.username}<br />
+                    <strong>EMAIL:</strong> {profile.email}<br />
+                    <strong>DATA DOŁĄCZENIA:</strong> {new Date(profile.created_at).toLocaleString()}
                 </p>
             )}
         </div>
