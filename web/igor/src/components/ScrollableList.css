@@ -1,6 +1,6 @@
 .scroll-container {
     /* max-height: 20wh; */
-    max-height: 40vh;
+    max-height: 35vh;
     /* Ustaw maksymalną wysokość kontenera */
     overflow-y: auto;
     /* Włącz przewijanie w osi pionowej */
@@ -10,6 +10,24 @@
     /* padding: 10px; */
     margin: 0 auto;
     width: 95%;
+    /* Ustaw szerokość kontenera */
+    background-color: black;
+    /* background-color: rgb(75, 0, 0); */
+    border-radius: 8px;
+}
+
+.scroll-review-list {
+    /* max-height: 20wh; */
+    max-height: 45vh;
+    /* Ustaw maksymalną wysokość kontenera */
+    overflow-y: auto;
+    /* Włącz przewijanie w osi pionowej */
+    position: absolute;
+    /* top: 41%; */
+    border: 1px solid white;
+    /* padding: 10px; */
+    margin: 0 auto;
+    width: 50%;
     /* Ustaw szerokość kontenera */
     background-color: black;
     /* background-color: rgb(75, 0, 0); */
@@ -52,6 +70,21 @@
 
 .repair-history-item:last-child {
     border-bottom: none;
+}
+
+
+.stars {
+    display: inline-block;
+}
+
+.gold-star {
+    color: gold;
+    font-size: 1.2em;
+}
+
+.gray-star {
+    color: lightgray;
+    font-size: 1.2em;
 }
 
 .error-message {

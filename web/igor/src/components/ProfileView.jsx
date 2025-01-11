@@ -61,7 +61,7 @@ const ProfileView = () => {
                 <p>
                     <strong>NAZWA UŻYTKOWNIKA:</strong> profile.user_id<br />
                     <strong>EMAIL:</strong> profile.email<br />
-                    <strong>DATA DOŁĄCZENIA:</strong> profile.reated_at<br />
+                    <strong>DATA DOŁĄCZENIA:</strong> profile.created_at
                 </p>
             )}
         </div>

@@ -1,6 +1,7 @@
 import React from "react";
-import CreateRepairOrder from "../CreateRepairOrder";
+import AddReview from "../AddReview";
 import HeaderTopic from "../HeaderTopic";
+import ReviewList from "../RatingsList";
 
 const Review = () => {
     return (
@@ -28,13 +29,38 @@ const Review = () => {
                     height: "80vh",
                 }}
             >
-                <div style={{ display: "flex", gap: "50px" }}>
-
-                    {/* <HeaderTopic header_text={"TWOJE SERWISY"} underline_width={"25%"}></HeaderTopic> */}
-                    {/* <HeaderTopic header_text={"TWOJE SERWISY"} underline_width={"25%"}></HeaderTopic> */}
+                <HeaderTopic header_text={"SPRAWDŹ NASZE OCENY"} underline_width={"25%"} fontSize={"40px"}></HeaderTopic>
+                <div
+                    style={{
+                        // padding: "0px 20px",
+                        display: "flex",
+                        // gap: "200px",
+                        // justifyContent: "space-evenly", // Równe rozmieszczenie
+                        alignItems: "flex-start", // Opcjonalnie wyrównanie w pionie
+                        width: "100%", // Dopasowanie szerokości do rodzica
+                        // gap: "100px", // Odstęp między divami
+                    }}
+                >
+                    <div style={{ display: "flex", gap: "200px" }}>
+                        <div
+                            style={{
+                                paddingLeft: "30px"
+                            }}
+                        >
+                            <HeaderTopic header_text={"OCEŃ NASZE USŁUGI"} underline_width={"25%"} fontSize={"30px"}></HeaderTopic>
+                            <AddReview></AddReview>
+                        </div>
+                    </div>
+                    <div
+                        style={{
+                            // padding: "0px 100px",
+                            paddingLeft: "200px"
+                        }}
+                    >
+                        <HeaderTopic header_text={"NASZE OCENY"} underline_width={"25%"} fontSize={"30px"}></HeaderTopic>
+                        <ReviewList></ReviewList>
+                    </div>
                 </div>
-                {/* <HeaderTopic header_text={"TWOJE SERWISY"} underline_width={"25%"}></HeaderTopic> */}
-                {/* <CreateRepairOrder></CreateRepairOrder> */}
             </div>
         </div>
     );
