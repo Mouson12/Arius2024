@@ -57,7 +57,7 @@ const Admin = () => {
                     </div>
                     <div
                         style={{
-                            paddingLeft: "400px"
+                            paddingLeft: "500px"
                         }}
                     >
                         <HeaderTopic header_text={"UMÓWIONE SERWISY"} underline_width={"30%"} fontSize={"30px"}></HeaderTopic>
