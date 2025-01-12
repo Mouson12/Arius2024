@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AuthRepository(context: Context) {
+class AuthRepository(private val context: Context) { // Store context as a private class property
 
     private val database = TokenDatabase.getInstance(context)
     private val api = RetrofitInstance.api
@@ -37,7 +37,7 @@ class AuthRepository(context: Context) {
         api.register(request).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    onSuccess() // Rejestracja udana
+                    onSuccess() // Registration successful
                 } else {
                     onError("Registration failed: ${response.message()}")
                 }
@@ -60,5 +60,14 @@ class AuthRepository(context: Context) {
         return database.tokenDao().getToken()?.token
     }
 
+    fun clearSession() {
+        // Clear SharedPreferences
+        val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().clear().apply()
 
+        // Clear Room database tokens
+        CoroutineScope(Dispatchers.IO).launch {
+            database.tokenDao().deleteAllTokens()
+        }
+    }
 }

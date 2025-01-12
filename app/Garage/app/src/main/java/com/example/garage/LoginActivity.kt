@@ -41,8 +41,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToHomeScreen() {
-        val intent = Intent(this, HomeFragment::class.java)
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
-        finish()
     }
 }

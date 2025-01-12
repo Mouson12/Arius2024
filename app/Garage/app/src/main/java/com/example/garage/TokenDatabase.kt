@@ -15,6 +15,9 @@ interface TokenDao {
 
     @Query("SELECT * FROM auth_tokens LIMIT 1")
     suspend fun getToken(): AuthToken?
+
+    @Query("DELETE FROM auth_tokens")
+    suspend fun deleteAllTokens()
 }
 
 @Database(entities = [AuthToken::class], version = 1)
