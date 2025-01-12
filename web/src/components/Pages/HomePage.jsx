@@ -21,7 +21,7 @@ const HomePage = () => {
                     style={{
                         padding: "20px 0",
                         color: "white", // Kolor tekstu
-                        fontSize: "55px", // Rozmiar czcionki
+                        fontSize: "45px", // Rozmiar czcionki
                         textAlign: "left", // Wyrównanie tekstu na środku
                         fontWeight: "bold"
                     }}

@@ -63,7 +63,6 @@ const ReviewList = () => {
                         <div key={index} className="list-item">
                             <strong>NR:</strong> {rating.id} <br />
                             <strong>UŻYTKOWNIK:</strong> {rating.user_id} <br />
-                            {/* <strong>OCENA:</strong> {rating.rating} <br /> */}
                             <strong>OCENA:</strong>{" "}
                             <div className="stars">
                                 {Array.from({ length: 10 }).map((_, i) => (
