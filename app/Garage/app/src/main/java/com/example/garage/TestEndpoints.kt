@@ -5,9 +5,22 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-//TODO: Only for test
-class ApiTestRunner(private val repository: RepairRepository, private val scope: LifecycleCoroutineScope) {
+/**
+ * Class for running test cases against the API endpoints.
+ * Primarily used for debugging and verifying that API methods function as expected.
+ *
+ * @param repository An instance of `RepairRepository` to access API operations.
+ * @param scope A `LifecycleCoroutineScope` for launching coroutines safely within a lifecycle-aware component.
+ */
+class ApiTestRunner(
+    private val repository: RepairRepository,
+    private val scope: LifecycleCoroutineScope
+) {
 
+    /**
+     * Runs all available API tests in sequence.
+     * Each test is responsible for logging its results or any errors encountered.
+     */
     fun runAllTests() {
         testGetServices()
         testCreateRepairOrder()
@@ -19,6 +32,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         testGetRepairOrdersByUser()
     }
 
+    /**
+     * Tests fetching the list of services from the workshop.
+     * Logs the result or any errors encountered.
+     */
     private fun testGetServices() {
         scope.launch {
             try {
@@ -30,6 +47,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests creating a new repair order.
+     * Logs the result or any errors encountered.
+     */
     private fun testCreateRepairOrder() {
         scope.launch {
             try {
@@ -45,6 +66,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests fetching all available appointments.
+     * Logs the result or any errors encountered.
+     */
     private fun testGetAppointments() {
         scope.launch {
             try {
@@ -56,6 +81,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests fetching appointments specific to the authenticated user.
+     * Logs the result or any errors encountered.
+     */
     private fun testGetUserAppointments() {
         scope.launch {
             try {
@@ -67,6 +96,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests fetching the repair history for the authenticated user.
+     * Logs the result or any errors encountered.
+     */
     private fun testGetRepairHistory() {
         scope.launch {
             try {
@@ -78,6 +111,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests submitting a rating for a workshop.
+     * Logs the result or any errors encountered.
+     */
     private fun testRateWorkshop() {
         scope.launch {
             try {
@@ -93,6 +130,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests fetching all workshop ratings.
+     * Logs the result or any errors encountered.
+     */
     private fun testGetRatings() {
         scope.launch {
             try {
@@ -104,6 +145,10 @@ class ApiTestRunner(private val repository: RepairRepository, private val scope:
         }
     }
 
+    /**
+     * Tests fetching all repair orders created by the authenticated user.
+     * Logs the result or any errors encountered.
+     */
     private fun testGetRepairOrdersByUser() {
         scope.launch {
             try {

@@ -23,13 +23,21 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Fragment for creating a new repair order.
+ * Allows users to:
+ * - Select a date using a calendar view.
+ * - Enter details about their vehicle and repair description.
+ * - Submit the order to the backend.
+ *
+ * @param repository An instance of `RepairRepository` for interacting with the backend API.
+ */
 class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
 
+    // UI elements
     private lateinit var calendarView: com.applandeo.materialcalendarview.CalendarView
     private val appointmentCountByDate = mutableMapOf<String, Int>()
-
     private var selectedCalendarDay: CalendarDay? = null
-
 
     @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
@@ -37,10 +45,12 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Inflate the layout for the fragment
         val view = inflater.inflate(R.layout.fragment_new_order, container, false)
 
         setupUIToHideKeyboard(view)
 
+        // Initialize UI components
         val vehicleModelEditText = view.findViewById<EditText>(R.id.editTextVehicleModel)
         val descriptionEditText = view.findViewById<EditText>(R.id.editTextDescription)
         val submitButton = view.findViewById<Button>(R.id.buttonSubmit)
@@ -49,28 +59,25 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
 
         var selectedDate: String? = null
 
-        // Pobranie terminów podczas tworzenia widoku
-        lifecycleScope.launch() {
+        // Fetch and populate existing appointments
+        lifecycleScope.launch {
             try {
                 val appointments = repository.getAppointments()
                 populateAppointments(appointments)
             } catch (e: Exception) {
                 Log.e("Appointments Error", "Error fetching appointments: ${e.message}")
-                Toast.makeText(requireContext(), "Błąd podczas pobierania wizyt", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Error fetching appointments.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
-//        calendarView.setHeaderColor(resources.getColor(android.R.color.white))
-//        calendarView.setHeaderLabelColor(resources.getColor(android.R.color.black))
-//        calendarView.setForwardButtonImage(resources.getDrawable(1))
-
-
-        // Obsługa wyboru daty w kalendarzu
+        // Calendar day selection handling
         calendarView.setOnCalendarDayClickListener(object : OnCalendarDayClickListener {
-            @SuppressLint("DefaultLocale")
             override fun onClick(calendarDay: CalendarDay) {
                 val clickedDayCalendar = calendarDay.calendar
-
                 selectedDate = String.format(
                     "%04d-%02d-%02d",
                     clickedDayCalendar.get(Calendar.YEAR),
@@ -78,49 +85,44 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
                     clickedDayCalendar.get(Calendar.DAY_OF_MONTH)
                 )
 
-
-
                 val count = appointmentCountByDate[selectedDate] ?: 0
                 if (count >= 10) {
                     selectedDate = null
                     showMaxAppointmentsDialog()
                 } else {
-                    // Ustawienie zaznaczenia na kliknięty dzień
                     selectedCalendarDay = calendarDay
                     updateCalendarSelection()
-                    selectedDateTextView.text = "Wybrana data: $selectedDate"
+                    selectedDateTextView.text = "Selected Date: $selectedDate"
                 }
             }
         })
 
-
-
-        // Obsługa wysłania formularza
+        // Handle order submission
         submitButton.setOnClickListener {
             val vehicleModel = vehicleModelEditText.text.toString().trim()
             val description = descriptionEditText.text.toString().trim()
 
             if (vehicleModel.isEmpty()) {
-                Toast.makeText(requireContext(), "Wprowadź model pojazdu!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter the vehicle model!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (description.isEmpty()) {
-                Toast.makeText(requireContext(), "Wprowadź opis usterki!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter a description of the issue!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (selectedDate == null) {
-                Toast.makeText(requireContext(), "Wybierz datę wizyty!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please select a date for the appointment!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            lifecycleScope.launch() {
+            lifecycleScope.launch {
                 try {
                     val appointmentDate = "${selectedDate}T10:00:00"
                     val message = repository.createRepairOrder(vehicleModel, description, appointmentDate)
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
                     Log.e("Create Order", "Error creating order: ${e.message}")
-                    Toast.makeText(requireContext(), "Błąd podczas tworzenia zamówienia!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Error creating order!", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -128,20 +130,23 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
         return view
     }
 
+    /**
+     * Updates the calendar to reflect selected dates and appointment availability.
+     */
     private fun updateCalendarSelection() {
         val events = mutableListOf<EventDay>()
 
-        // Dodanie zaznaczonego dnia z wyróżnieniem
+        // Highlight selected day
         selectedCalendarDay?.let {
             val drawable = GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
-                setColor(android.graphics.Color.parseColor("#6200EE")) // Kolor zaznaczenia
-                setSize(64, 64) // Rozmiar kółka dla wybranego dnia
+                setColor(android.graphics.Color.parseColor("#6200EE")) // Highlight color
+                setSize(64, 64)
             }
             events.add(EventDay(it.calendar, drawable))
         }
 
-        // Dodanie istniejących wydarzeń z ich kolorami
+        // Add existing appointments
         for ((date, count) in appointmentCountByDate) {
             val (year, month, day) = date.split("-").map { it.toInt() }
             val calendar = Calendar.getInstance()
@@ -157,61 +162,79 @@ class NewOrderFragment(private val repository: RepairRepository) : Fragment() {
         calendarView.setEvents(events)
     }
 
-
-    // Funkcja do wypełnienia danych o zajętych terminach
+    /**
+     * Populates the calendar with existing appointments.
+     *
+     * @param appointments List of appointments fetched from the backend.
+     */
     private fun populateAppointments(appointments: List<Appointment>) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         for (appointment in appointments) {
-            val date = dateFormat.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).parse(appointment.appointment_date)!!)
-            val count = if (appointmentCountByDate.containsKey(date)) appointmentCountByDate[date]!! else 0
+            val date = dateFormat.format(
+                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                    .parse(appointment.appointment_date)!!
+            )
+            val count = appointmentCountByDate[date] ?: 0
             appointmentCountByDate[date] = count + 1
         }
         updateCalendarColors()
     }
 
-    // Zaznaczenie kolorów na kalendarzu
+    /**
+     * Updates calendar colors based on the number of appointments on each date.
+     */
     private fun updateCalendarColors() {
         val events = mutableListOf<EventDay>()
         for ((date, count) in appointmentCountByDate) {
             val (year, month, day) = date.split("-").map { it.toInt() }
             val calendar = Calendar.getInstance()
             calendar.set(year, month - 1, day)
-
-            // Pobranie koloru na podstawie liczby wizyt
             val color = getColorForAppointments(count)
-
-            // Tworzenie okrągłego Drawable z dynamicznym kolorem
             val drawable = createCircleDrawable(color)
-
             events.add(EventDay(calendar, drawable))
         }
         calendarView.setEvents(events)
     }
 
-    // Funkcja do tworzenia okrągłego Drawable z podanym kolorem
+    /**
+     * Creates a circular drawable with the given color.
+     *
+     * @param color The color to apply to the drawable.
+     * @return A `GradientDrawable` with the specified color.
+     */
     private fun createCircleDrawable(color: Int): GradientDrawable {
-        val shape = GradientDrawable().apply {
+        return GradientDrawable().apply {
             shape = GradientDrawable.OVAL
             setColor(color)
-            setSize(48, 48) // Rozmiar okręgu (można dopasować)
+            setSize(48, 48)
         }
-        return shape
     }
 
-
+    /**
+     * Determines the color intensity based on the number of appointments.
+     *
+     * @param count Number of appointments.
+     * @return Color integer.
+     */
     private fun getColorForAppointments(count: Int): Int {
         val colorIntensity = (255 * count / 10).coerceIn(0, 255)
         return android.graphics.Color.argb(255, 255, 255 - colorIntensity, 255 - colorIntensity)
     }
 
+    /**
+     * Shows a dialog informing the user when the maximum number of appointments for a day is reached.
+     */
     private fun showMaxAppointmentsDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Brak dostępnych miejsc")
-            .setMessage("W tym dniu jest już zaplanowanych 10 wizyt. Wybierz inny dzień.")
+            .setTitle("No Available Slots")
+            .setMessage("The selected day already has 10 appointments. Please choose another day.")
             .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
+    /**
+     * Sets up UI interactions to hide the keyboard when tapping outside editable views.
+     */
     @SuppressLint("ClickableViewAccessibility")
     private fun setupUIToHideKeyboard(view: View) {
         if (view !is EditText && view !is Button) {
