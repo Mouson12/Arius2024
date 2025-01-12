@@ -1,39 +1,41 @@
 services:
     postgres:
-        image: postgres:17.2
-        container_name: garage_db
+        image: postgres:17.2  # Use the official PostgreSQL image, version 17.2
+        container_name: garage_db  # Name the container 'garage_db'
         ports:
-            - "5432:5432"
+            - "5432:5432"  # Map port 5432 on the host to port 5432 in the container
         environment:
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: admin
-            POSTGRES_DB: garage_db
+            POSTGRES_USER: admin  # Set the PostgreSQL user to 'admin'
+            POSTGRES_PASSWORD: admin  # Set the PostgreSQL password to 'admin'
+            POSTGRES_DB: garage_db  # Set the PostgreSQL database name to 'garage_db'
         volumes:
-            - ./postgres:/var/lib/postgresql/data
+            - ./postgres:/var/lib/postgresql/data  # Persist PostgreSQL data to a local directory
+
     adminer:
-        image: adminer
-        container_name: garage_adminer
+        image: adminer  # Use the official Adminer image
+        container_name: garage_adminer  # Name the container 'garage_adminer'
         ports:
-            - "8080:8080"
-    # ToDo: add flask container and web react SPA container
+            - "8080:8080"  # Map port 8080 on the host to port 8080 in the container
+
     flask:
         build:
-            context: ../server
-            dockerfile: Dockerfile
-        container_name: garage_server
+            context: ../server  # Build the Flask service from the 'server' directory
+            dockerfile: Dockerfile  # Use the Dockerfile in the 'server' directory
+        container_name: garage_server  # Name the container 'garage_server'
         ports:
-            - "5001:5000"
+            - "5001:5000"  # Map port 5001 on the host to port 5000 in the container
         environment:
-            - FLASK_ENV=development
+            - FLASK_ENV=development  # Set the Flask environment to 'development'
         depends_on:
-            - postgres
-        entrypoint: [ "/server/wait-for-db.sh", "garage_db", "flask", "run", "--host=0.0.0.0", "--port=5000" ]
+            - postgres  # Ensure the 'postgres' service is started before this service
+        entrypoint: [ "/server/wait-for-db.sh", "garage_db", "flask", "run", "--host=0.0.0.0", "--port=5000" ]  # Wait for the database to be ready before starting Flask
+
     react-web:
         build:
-            context: ../web 
-            dockerfile: Dockerfile
-        container_name: garage_react
+            context: ../web  # Build the React service from the 'web' directory
+            dockerfile: Dockerfile  # Use the Dockerfile in the 'web' directory
+        container_name: garage_react  # Name the container 'garage_react'
         ports:
-            - "5173:80"
+            - "5173:80"  # Map port 5173 on the host to port 80 in the container
         depends_on:
-            - flask
+            - flask  # Ensure the 'flask' service is started before this service
