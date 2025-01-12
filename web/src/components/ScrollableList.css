@@ -34,6 +34,24 @@
     border-radius: 8px;
 }
 
+.scroll-container-admin {
+    /* max-height: 20wh; */
+    max-height: 35vh;
+    /* Ustaw maksymalną wysokość kontenera */
+    overflow-y: auto;
+    /* Włącz przewijanie w osi pionowej */
+    position: absolute;
+    /* top: 41%; */
+    border: 1px solid white;
+    /* padding: 10px; */
+    margin: 0 auto;
+    width: 45%;
+    /* Ustaw szerokość kontenera */
+    background-color: black;
+    /* background-color: rgb(75, 0, 0); */
+    border-radius: 8px;
+}
+
 .scroll-review-list {
     /* max-height: 20wh; */
     max-height: 45vh;

@@ -70,11 +70,6 @@ const Profile = () => {
                         }}
                     />
                     <ProfileView></ProfileView>
-                    {/* <p>
-                        <strong>NAZWA UŻYTKOWNIKA:</strong> JanKowalski<br />
-                        <strong>EMAIL:</strong> jan.kowalski@example.com<br />
-                        <strong>DATA DOŁĄCZENIA:</strong> profile.created_at
-                    </p> */}
                 </div>
                 {/* Sekcja HISTORIA USŁUG */}
                 <HeaderTopic header_text={"AKTUALNE SERWISY"} underline_width={"23%"} fontSize={"30px"}></HeaderTopic>

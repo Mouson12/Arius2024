@@ -33,6 +33,22 @@ def get_user_data():
         "created_at": user.created_at.isoformat()
     })
 
+@api.route('/repair_orders', methods=['GET'])
+def get_repair_orders():
+    """
+    Endpoint to retrieve all repair orders for admin.
+    """
+    repair_orders = RepairOrder.query.all()
+    if not repair_orders:
+        return jsonify({"message": "No orders found."}), 404
+    return jsonify([{
+        "order_id": ro.id,
+        "vehicle_model": ro.vehicle_model,
+        "description": ro.description,
+        "status": ro.status,
+        "appointment_date": ro.appointment_date.isoformat()
+    } for ro in repair_orders])
+
 @api.route('/services', methods=['GET'])
 def get_services():
     """

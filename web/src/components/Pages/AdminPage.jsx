@@ -1,6 +1,7 @@
 import React from "react";
 import AppointmentsCalendar from "../AppointmentsCalendar";
 import HeaderTopic from "../HeaderTopic";
+import AdminList from "../AdminList";
 
 
 const Admin = () => {
@@ -52,6 +53,7 @@ const Admin = () => {
                         }}
                     >
                         <HeaderTopic header_text={"STATUS SERWISÓW"} underline_width={"25%"} fontSize={"30px"}></HeaderTopic>
+                        <AdminList></AdminList>
                     </div>
                     <div
                         style={{

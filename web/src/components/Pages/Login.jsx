@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import NavigationButton from "../NavigationButton";
-import { Link, useNavigate } from "react-router-dom";  // Użyj useNavigate zamiast useHistory
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate();  // Zmieniono z useHistory na useNavigate
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -16,20 +16,16 @@ const Login = () => {
                 password,
             });
 
-            console.log("Odpowiedź serwera:", response.data); // Debugowanie
-
             if (response.status === 200 && response.data.access_token) {
-                console.log("Token otrzymany:", response.data.access_token); // Debugowanie
-                localStorage.setItem("token", response.data.access_token); // Zapisywanie tokenu
-                console.log("Token zapisany w localStorage:", localStorage.getItem("token")); // Sprawdzanie, czy token jest zapisany
-                window.location.reload();
+                localStorage.setItem("token", response.data.access_token);
                 navigate("/profile"); // Przekierowanie do profilu
+                window.location.reload();
             } else {
-                setErrorMessage("Login failed. No token received.");
+                setErrorMessage("Złe hasło lub email.");
             }
         } catch (error) {
-            setErrorMessage(error.response?.data?.message || "Login failed.");
-            console.error("Błąd logowania:", error); // Debugowanie
+            setErrorMessage("Złe hasło lub email.");
+            console.error("Błąd logowania:", error);
         }
     };
 
@@ -127,7 +123,8 @@ const Login = () => {
                         width: "100%",
                     }}
                 >
-                    <NavigationButton onClick={handleLogin} to="/profile" buttonText="ZALOGUJ SIĘ" />
+                    {/* Przycisk obsługuje logikę i dynamicznie przekierowuje */}
+                    <NavigationButton onClick={handleLogin} buttonText="ZALOGUJ SIĘ" />
                 </div>
             </div>
         </div>
