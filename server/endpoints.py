@@ -129,9 +129,13 @@ def complete_repair():
     if not repair_order:
         return jsonify({"message": "Repair order not found."}), 404
 
+    service = Service.query.get(data.get('service_id'))
+    if not service:
+        return jsonify({"message": "Service not found."}), 404
+
     repair_history = RepairHistory(
         repair_order_id=repair_order.id,
-        service_id=data.get('service_id'),
+        service_id=service.id,
         report=report,
         completed_at=datetime.utcnow()
     )
@@ -139,10 +143,11 @@ def complete_repair():
     db.session.add(repair_history)
     db.session.commit()
 
-
     user_email = repair_order.user.email
     username = repair_order.user.username
     vehicle_model = repair_order.vehicle_model
+    service_name = service.name
+    service_cost = service.price
 
     # Wczytanie szablonu HTML
     with open('templates/emails/repair_complete.html', 'r') as file:
@@ -150,14 +155,15 @@ def complete_repair():
 
     html_body = html_template.replace("{{ username }}", username)\
                              .replace("{{ vehicle_model }}", vehicle_model)\
-                             .replace("{{ report }}", report)
+                             .replace("{{ report }}", report)\
+                             .replace("{{ service_name }}", service_name)\
+                             .replace("{{ service_cost }}", str(service_cost))
 
     # Wysyłanie e-maila z HTML
-    # TODO: In email price, report of services
     msg = Message(
         subject="Repair Completed",
         recipients=[user_email],
-        body=f"Hello {username},\nYour repair for {vehicle_model} has been completed.\n\nReport:\n{report}\nThank you!",
+        body=f"Hello {username},\nYour repair for {vehicle_model} has been completed.\n\nService: {service_name}\nCost: ${service_cost}\n\nReport:\n{report}\nThank you!",
         html=html_body
     )
     try:

@@ -10,6 +10,9 @@
     <div style="background-color: #ffffff; padding: 20px; border-radius: 8px;">
         <h2 style="color: #333333;">Hello {{ username }},</h2>
         <p>Your vehicle repair for <strong>{{ vehicle_model }}</strong> has been successfully completed.</p>
+        <h4>Service Details:</h4>
+        <p>Service: {{ service_name }}</p>
+        <p>Cost: ${{ service_cost }}</p>
         <h4>Repair Report:</h4>
         <p>{{ report }}</p>
         <p>Thank you for choosing our service!</p>
