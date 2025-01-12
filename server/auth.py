@@ -45,36 +45,3 @@ def register():
 
     return jsonify({"message": "User registered successfully."}), 201
 
-@auth.route('/login', methods=['POST'])
-def login():
-    """
-    User login endpoint.
-    
-    Expects JSON payload with:
-    - email: String, required
-    - password: String, required
-    
-    Returns:
-    - 200: Login successful, includes JWT access token
-    - 400: Missing required fields
-    - 401: Invalid credentials
-    """
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-
-    # Validate required fields
-    if not email or not password:
-        return jsonify({"message": "Email and password are required."}), 400
-
-    # Authenticate user
-    user = User.query.filter_by(email=email).first()
-    if user and user.check_password(password):
-        # Generate JWT token for authenticated session
-        access_token = user.generate_jwt()
-        return jsonify({
-            "message": "Login successful.",
-            "access_token": access_token
-        }), 200
-    else:
-        return jsonify({"message": "Invalid email or password."}), 401

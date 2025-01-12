@@ -16,7 +16,7 @@ const AdminList = () => {
         }
 
         try {
-            const response = await fetch("http://157.90.162.7:5001/api/repair_orders", {
+            const response = await fetch("http://157.90.162.7:5001/api/repair_orders/user", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`, // Dodanie tokenu do nagłówka
@@ -63,11 +63,41 @@ const AdminList = () => {
                         appointmentList
                             .filter(appointment => appointment.status === "Pending") // Filtrujemy tylko spotkania o statusie 'pending'
                             .map((appointment, index) => (
-                                <div key={index} className="list-item">
-                                    <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
-                                    <strong>OPIS:</strong> {appointment.description} <br />
-                                    <strong>STATUS i NUMER ZAMÓWIENIA:</strong> {appointment.status} {appointment.order_id} <br />
-                                    <strong>DATA SERWISU:</strong> {new Date(appointment.appointment_date).toLocaleString()}
+                                <div key={index} className="list-item"
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between", // Przycisk na prawo, a zawartość na lewo
+                                        alignItems: "center", // Wyśrodkowanie w pionie
+                                        width: "100%", // Dopasowanie szerokości do rodzica
+                                    }}
+                                >
+                                    <div>
+                                        <strong>MODEL AUTA:</strong> {appointment.vehicle_model} <br />
+                                        <strong>OPIS:</strong> {appointment.description} <br />
+                                        <strong>STATUS:</strong> {appointment.status} <br />
+                                        <strong>NUMER ZAMÓWIENIA:</strong> {appointment.order_id} <br />
+                                        <strong>DATA SERWISU:</strong> {new Date(appointment.appointment_date).toLocaleString()}
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "flex-end", // Wyrównanie przycisku do prawej
+                                            alignItems: "center", // Wyśrodkowanie w pionie
+                                        }}
+                                    >
+                                        <button
+                                            disabled={false} // Możesz ustawić true lub false w zależności od warunku
+                                            onClick={() => console.log("Przycisk kliknięty!")}
+                                            style={{
+                                                padding: "10px 20px",
+                                                marginRight: "40px",
+                                                fontSize: "20px",
+                                                borderRadius: "5px",
+                                            }}
+                                        >
+                                            ZAKOŃCZ
+                                        </button>
+                                    </div>
                                 </div>
                             ))
                     }
@@ -78,4 +108,5 @@ const AdminList = () => {
 };
 
 export default AdminList;
+
 
