@@ -14,8 +14,6 @@ def get_user_by_jwt():
     user = User.query.get(user_id)
     return user
 
-# ********************************************* ZROBIONE *********************************************
-
 @api.route('/user_data', methods=['GET'])
 @jwt_required()
 def get_user_data():
@@ -85,7 +83,6 @@ def create_repair_order():
 
     return jsonify({"message": "Repair order created successfully.", "order_id": new_order.id}), 201
 
-# ********************************************* ADMIN ZROBIONE *********************************************
 
 @api.route('/appointments', methods=['GET'])
 def get_appointments():
@@ -113,7 +110,6 @@ def get_user_appointments():
     user_appointments = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
     return jsonify(user_appointments)
 
-# ********************************************* ADMIN *********************************************
 
 @api.route('/repair_complete', methods=['POST'])
 def complete_repair():
@@ -172,7 +168,6 @@ def complete_repair():
     except Exception as e:
         return jsonify({"message": f"Repair completed, but email sending failed: {str(e)}"}), 500
 
-# ********************************************* ZROBIONE *********************************************
 
 @api.route('/repair_history', methods=['GET'])
 @jwt_required()
@@ -194,7 +189,6 @@ def get_user_repair_history():
     } for h in history]
     return jsonify(history_data)
 
-# ********************************************* ZROBINE *********************************************
 
 @api.route('/ratings', methods=['POST'])
 @jwt_required()
@@ -223,7 +217,6 @@ def rate_workshop():
     return jsonify({"message": "Rating submitted successfully."}), 201
     
 
-# ********************************************* ZROBIONE *********************************************
 
 @api.route('/ratings', methods=['GET'])
 def get_ratings():
@@ -233,7 +226,6 @@ def get_ratings():
     ratings = WorkshopRating.query.all()
     return jsonify([{"id": r.id, "user_id": r.user_id, "repair_order_id": r.repair_order_id, "rating": r.rating, "comment": r.comment} for r in ratings])
 
-# ********************************************* ZROBIONE *********************************************
 @api.route('/repair_orders/user', methods=['GET'])
 @jwt_required()
 def get_repair_orders_by_user():

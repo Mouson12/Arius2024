@@ -1,0 +1,158 @@
+{
+    "info": {
+        "name": "Garage API Tests - Updated",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "User Registration",
+            "item": [
+                {
+                    "name": "Register New User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://157.90.162.7:5001/auth/register",
+                            "host": [
+                                "http://157.90.162.7:5001"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"new_user\", \"password\": \"password123\", \"email\": \"new_user@example.com\"}"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Register Existing User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://157.90.162.7:5001/auth/register",
+                            "host": [
+                                "http://157.90.162.7:5001"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"test_user\", \"password\": \"password123\", \"email\": \"test@example.com\"}"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "User Login",
+            "item": [
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://157.90.162.7:5001/auth/login",
+                            "host": [
+                                "http://157.90.162.7:5001"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"test_user\", \"password\": \"password123\"}"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Repair Orders",
+            "item": [
+                {
+                    "name": "Create Repair Order",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://157.90.162.7:5001/api/repair_orders",
+                            "host": [
+                                "http://157.90.162.7:5001"
+                            ],
+                            "path": [
+                                "api",
+                                "repair_orders"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"vehicle_model\": \"Toyota Corolla\", \"description\": \"Wymiana opon\", \"appointment_date\": \"2025-01-12T10:00:00\"}"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Repair Orders",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://157.90.162.7:5001/api/repair_orders",
+                            "host": [
+                                "http://157.90.162.7:5001"
+                            ],
+                            "path": [
+                                "api",
+                                "repair_orders"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
