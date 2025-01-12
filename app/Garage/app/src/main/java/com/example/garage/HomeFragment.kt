@@ -1,9 +1,12 @@
 package com.example.garage
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var apiService: ApiService
     private lateinit var servicesRecyclerView: RecyclerView
+    private lateinit var logoutButton: Button
     private val servicesAdapter = ServicesAdapter()
 
     override fun onCreateView(
@@ -26,11 +30,18 @@ class HomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.activity_home, container, false)
 
+        // Initialize RecyclerView
         servicesRecyclerView = rootView.findViewById(R.id.servicesRecyclerView)
-
         servicesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         servicesRecyclerView.adapter = servicesAdapter
 
+        // Initialize Logout Button
+        logoutButton = rootView.findViewById(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            performLogout()
+        }
+
+        // Setup API service
         apiService = Retrofit.Builder()
             .baseUrl("http://157.90.162.7:5001")
             .addConverterFactory(GsonConverterFactory.create())
@@ -51,6 +62,17 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Błąd: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun performLogout() {
+        // Clear SharedPreferences
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().clear().apply()
+
+        // Navigate to LoginActivity
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }
 
