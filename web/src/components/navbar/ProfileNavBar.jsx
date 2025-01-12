@@ -9,8 +9,6 @@ const ProfileNavBar = () => {
         // Usuwamy token z localStorage lub sessionStorage
         localStorage.removeItem("token");
 
-        // Możesz też użyć sessionStorage, jeśli używasz tej metody
-        // sessionStorage.removeItem("token");
 
         // Przekierowujemy użytkownika na stronę główną
         navigate("/");

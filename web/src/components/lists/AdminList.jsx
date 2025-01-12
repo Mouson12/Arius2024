@@ -190,7 +190,7 @@ const AdminList = () => {
                                             borderRadius: "5px",
                                             marginRight: "40px",
                                             fontSize: "20px",
-                                            borderRadius: "5px",
+                                            // borderRadius: "5px",
                                         }}
                                     >
                                         ZAKOŃCZ
