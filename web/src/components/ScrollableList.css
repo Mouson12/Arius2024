@@ -9,7 +9,8 @@
     border: 1px solid white;
     /* padding: 10px; */
     margin: 0 auto;
-    width: 95%;
+    width: 45%;
+    /* width: 95%; */
     /* Ustaw szerokość kontenera */
     background-color: black;
     /* background-color: rgb(75, 0, 0); */
@@ -19,6 +20,24 @@
 .scroll-container-history {
     /* max-height: 20wh; */
     max-height: 35vh;
+    /* Ustaw maksymalną wysokość kontenera */
+    overflow-y: auto;
+    /* Włącz przewijanie w osi pionowej */
+    position: absolute;
+    /* top: 41%; */
+    border: 1px solid white;
+    /* padding: 10px; */
+    margin: 0 auto;
+    width: 45%;
+    /* Ustaw szerokość kontenera */
+    background-color: black;
+    /* background-color: rgb(75, 0, 0); */
+    border-radius: 8px;
+}
+
+.scroll-container-admin {
+    /* max-height: 20wh; */
+    max-height: 50vh;
     /* Ustaw maksymalną wysokość kontenera */
     overflow-y: auto;
     /* Włącz przewijanie w osi pionowej */

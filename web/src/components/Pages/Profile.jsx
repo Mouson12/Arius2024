@@ -3,6 +3,7 @@ import profileIcon from "../../assets/profileIcon.jpg"; // Import obrazu
 import AppointmentList from "../AppointmentList";
 import HeaderTopic from "../HeaderTopic";
 import ProfileView from "../ProfileView";
+import UserAppointmentsCalendar from "../UserAppointments";
 
 const Profile = () => {
     const token = localStorage.getItem("token");
@@ -70,16 +71,33 @@ const Profile = () => {
                         }}
                     />
                     <ProfileView></ProfileView>
-                    {/* <p>
-                        <strong>NAZWA UŻYTKOWNIKA:</strong> JanKowalski<br />
-                        <strong>EMAIL:</strong> jan.kowalski@example.com<br />
-                        <strong>DATA DOŁĄCZENIA:</strong> profile.created_at
-                    </p> */}
                 </div>
-                {/* Sekcja HISTORIA USŁUG */}
-                <HeaderTopic header_text={"AKTUALNE SERWISY"} underline_width={"23%"} fontSize={"30px"}></HeaderTopic>
-                {/* Lista scrollowana */}
-                <AppointmentList />
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "flex-start", // Opcjonalnie wyrównanie w pionie
+                        width: "100%", // Dopasowanie szerokości do rodzica
+                        gap: "20px", // Odstęp między divami
+                    }}
+                >
+                    <div
+                        style={{
+                            paddingLeft: "30px"
+                        }}
+                    >
+                        <HeaderTopic header_text={"AKTUALNE SERWISY"} underline_width={"23%"} fontSize={"30px"}></HeaderTopic>
+                        <AppointmentList />
+                    </div>
+                    <div
+                        style={{
+                            paddingLeft: "400px"
+                        }}
+                    >
+                        <HeaderTopic header_text={"UMÓWIONE SERWISY"} underline_width={"30%"} fontSize={"30px"}></HeaderTopic>
+                        <UserAppointmentsCalendar></UserAppointmentsCalendar>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

@@ -68,7 +68,8 @@ function App() {
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/review" element={<Review />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin-panel" element={<AdminPage />} />
+          <Route path="/admin-login" element={<AdminPage />} />
         </Routes>
       </Router>
     </div>

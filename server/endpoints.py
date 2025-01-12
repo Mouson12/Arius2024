@@ -33,6 +33,22 @@ def get_user_data():
         "created_at": user.created_at.isoformat()
     })
 
+@api.route('/repair_orders', methods=['GET'])
+def get_repair_orders():
+    """
+    Endpoint to retrieve all repair orders for admin.
+    """
+    repair_orders = RepairOrder.query.all()
+    if not repair_orders:
+        return jsonify({"message": "No orders found."}), 404
+    return jsonify([{
+        "order_id": ro.id,
+        "vehicle_model": ro.vehicle_model,
+        "description": ro.description,
+        "status": ro.status,
+        "appointment_date": ro.appointment_date.isoformat()
+    } for ro in repair_orders])
+
 @api.route('/services', methods=['GET'])
 def get_services():
     """
@@ -69,6 +85,8 @@ def create_repair_order():
 
     return jsonify({"message": "Repair order created successfully.", "order_id": new_order.id}), 201
 
+# ********************************************* ADMIN ZROBIONE *********************************************
+
 @api.route('/appointments', methods=['GET'])
 def get_appointments():
     """
@@ -78,7 +96,6 @@ def get_appointments():
     taken_dates = [{"appointment_date": o.appointment_date.isoformat()} for o in orders]
     return jsonify(taken_dates)
 
-# ********************************************* ADMIN *********************************************
 
 @api.route('/appointments/user', methods=['GET'])
 @jwt_required()
@@ -171,7 +188,7 @@ def get_user_repair_history():
     } for h in history]
     return jsonify(history_data)
 
-# ********************************************* DO ZROBIENIA *********************************************
+# ********************************************* ZROBINE *********************************************
 
 @api.route('/ratings', methods=['POST'])
 @jwt_required()
@@ -200,7 +217,7 @@ def rate_workshop():
     return jsonify({"message": "Rating submitted successfully."}), 201
     
 
-# ********************************************* DO ZROBIENIA *********************************************
+# ********************************************* ZROBIONE *********************************************
 
 @api.route('/ratings', methods=['GET'])
 def get_ratings():
