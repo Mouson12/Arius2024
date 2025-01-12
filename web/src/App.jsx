@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProfileNavBar from "./components/ProfileNavBar.jsx";
-import HomePageNavbar from "./components/HomePageNavbar.jsx";
+import ProfileNavBar from "./components/navbar/ProfileNavBar.jsx";
+import HomePageNavbar from "./components/navbar/HomePageNavbar.jsx";
 import Login from "./components/Pages/Login";
 import Register from "./components/Pages/Register.jsx";
 import Appointment from "./components/Pages/Appointment";

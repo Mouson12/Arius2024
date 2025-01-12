@@ -1,5 +1,5 @@
 import React from "react";
-import AppointmentButton from "../AppointmentButton"; // Zmieniamy na odpowiednią ścieżkę
+import AppointmentButton from "../buttons/AppointmentButton"; // Zmieniamy na odpowiednią ścieżkę
 
 const HomePage = () => {
     return (

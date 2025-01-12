@@ -1,7 +1,7 @@
 import React from "react";
-import CreateRepairOrder from "../CreateRepairOrder";
+import CreateRepairOrder from "../input/CreateRepairOrder";
 import HeaderTopic from "../HeaderTopic";
-import ScrollableList from "../ScrollableList";
+import ScrollableList from "../lists/ScrollableList";
 
 const Appointments = () => {
     const token = localStorage.getItem("token");

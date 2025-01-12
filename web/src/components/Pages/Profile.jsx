@@ -1,9 +1,9 @@
 import React from "react";
 import profileIcon from "../../assets/profileIcon.jpg"; // Import obrazu
-import AppointmentList from "../AppointmentList";
+import AppointmentList from "../lists/AppointmentList";
 import HeaderTopic from "../HeaderTopic";
 import ProfileView from "../ProfileView";
-import UserAppointmentsCalendar from "../UserAppointments";
+import UserAppointmentsCalendar from "../calendar/UserAppointments";
 
 const Profile = () => {
     const token = localStorage.getItem("token");

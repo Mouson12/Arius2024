@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavigationButton from "../NavigationButton";
+import NavigationButton from "../buttons/NavigationButton";
 import { Link, useNavigate } from "react-router-dom";  // Używamy useNavigate zamiast useHistory
 import axios from "axios";
 

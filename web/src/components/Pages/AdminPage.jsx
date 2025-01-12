@@ -1,7 +1,7 @@
 import React from "react";
-import AppointmentsCalendar from "../AppointmentsCalendar";
+import AppointmentsCalendar from "../calendar/AppointmentsCalendar";
 import HeaderTopic from "../HeaderTopic";
-import AdminList from "../AdminList";
+import AdminList from "../lists/AdminList";
 
 
 const Admin = () => {

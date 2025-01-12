@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ScrollableList.css";
+import "./lists/ScrollableList.css";
 
 const ProfileView = () => {
     const [profile, setProfile] = useState([]); // Stan na dane z API

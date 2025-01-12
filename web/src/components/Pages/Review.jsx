@@ -1,7 +1,7 @@
 import React from "react";
-import AddReview from "../AddReview";
+import AddReview from "../input/AddReview";
 import HeaderTopic from "../HeaderTopic";
-import ReviewList from "../RatingsList";
+import ReviewList from "../lists/RatingsList";
 
 const Review = () => {
     return (
